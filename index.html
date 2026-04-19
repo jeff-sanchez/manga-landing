@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manga Essencial — Construa com IA sem quebrar depois</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --manga: #D4860A;
+  --manga-l: #FFF6E0;
+  --manga-ll: #FFFBF2;
+  --verde: #1F7A35;
+  --dark: #111010;
+  --dark2: #1C1B1A;
+  --muted: #7A7169;
+  --border: #EDE7D9;
+  --white: #FFFFFF;
+  --text: #1C1B1A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Onest', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── TYPOGRAPHY ── */
+.display {
+  font-family: 'Onest', sans-serif;
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -.03em;
+}
+.label {
+  font-family: 'Onest', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Onest', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--manga);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-size: 14px; color: var(--muted); text-decoration: none;
+  font-weight: 500; transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--manga); color: var(--white);
+  border: none; border-radius: 100px;
+  padding: 10px 20px; font-size: 13px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  font-family: 'Onest', sans-serif;
+  transition: opacity .2s; white-space: nowrap;
+}
+.nav-cta:hover { opacity: .88; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 48px 80px;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient background */
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 800px; height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,134,10,.08) 0%, transparent 70%);
+  top: -200px; right: -200px;
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,134,10,.05) 0%, transparent 70%);
+  bottom: -100px; left: -100px;
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--manga-l); border: 1px solid rgba(212,134,10,.3);
+  border-radius: 100px; padding: 6px 16px;
+  margin-bottom: 32px;
+  animation: fadeUp .6s ease both;
+}
+.hero-badge .stars { color: var(--manga); font-size: 12px; }
+.hero-badge span { font-size: 12px; color: var(--manga); font-weight: 500; }
+
+.hero h1 {
+  font-size: clamp(52px, 7vw, 88px);
+  max-width: 800px;
+  margin-bottom: 0;
+  animation: fadeUp .6s .1s ease both;
+}
+.hero h1 .break { color: var(--manga); }
+
+.hero-sub-cta {
+  font-family: 'Onest', sans-serif;
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 700;
+  color: var(--manga);
+  margin: 16px 0 24px;
+  animation: fadeUp .6s .2s ease both;
+}
+
+.hero-desc {
+  font-size: 17px; color: var(--muted); line-height: 1.7;
+  max-width: 520px; margin-bottom: 40px;
+  animation: fadeUp .6s .3s ease both;
+}
+
+.hero-buttons {
+  display: flex; gap: 12px; align-items: center; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 32px;
+  animation: fadeUp .6s .4s ease both;
+}
+.btn-primary {
+  background: var(--manga); color: var(--white);
+  border: none; border-radius: 100px;
+  padding: 16px 32px; font-size: 15px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  font-family: 'Onest', sans-serif;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: transform .2s, opacity .2s;
+  box-shadow: 0 4px 24px rgba(212,134,10,.3);
+}
+.btn-primary:hover { transform: translateY(-2px); opacity: .92; }
+.btn-secondary {
+  background: transparent; color: var(--text);
+  border: 1.5px solid var(--border); border-radius: 100px;
+  padding: 16px 28px; font-size: 15px; font-weight: 500;
+  cursor: pointer; text-decoration: none;
+  font-family: 'Onest', sans-serif;
+  transition: border-color .2s;
+}
+.btn-secondary:hover { border-color: var(--manga); color: var(--manga); }
+
+.hero-trust {
+  display: flex; gap: 24px; align-items: center; justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp .6s .5s ease both;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--muted); font-weight: 500;
+}
+.trust-item .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border); }
+
+/* Hero mockup */
+.hero-mockup {
+  width: 100%; max-width: 720px;
+  margin: 56px auto 0;
+  background: var(--dark2);
+  border-radius: 16px;
+  padding: 32px 36px;
+  text-align: left;
+  box-shadow: 0 32px 80px rgba(0,0,0,.2);
+  animation: fadeUp .6s .6s ease both;
+  position: relative;
+  overflow: hidden;
+}
+.hero-mockup::before {
+  content: '';
+  position: absolute;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,134,10,.15) 0%, transparent 70%);
+  top: -100px; right: -50px;
+}
+.mockup-top {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+}
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mockup-label { font-size: 11px; color: rgba(255,255,255,.3); letter-spacing: .1em; text-transform: uppercase; margin-left: auto; }
+.mockup-emoji { font-size: 36px; margin-bottom: 8px; display: block; }
+.mockup-title { font-family: 'Onest', sans-serif; font-size: 28px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.mockup-title span { color: var(--manga); }
+.mockup-sub { font-size: 13px; color: rgba(255,255,255,.4); margin-bottom: 24px; }
+.mockup-modules { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mockup-module {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 8px; padding: 10px 12px;
+}
+.mockup-module-num { font-size: 10px; color: var(--manga); font-weight: 700; margin-bottom: 3px; letter-spacing: .06em; }
+.mockup-module-name { font-size: 12px; color: rgba(255,255,255,.7); font-weight: 500; }
+
+/* ── STRIP ── */
+.strip {
+  background: var(--dark2);
+  padding: 20px 48px;
+  display: flex; align-items: center; justify-content: center; gap: 48px;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.strip-item { font-size: 13px; color: rgba(255,255,255,.4); font-weight: 500; white-space: nowrap; }
+.strip-sep { color: rgba(255,255,255,.12); font-size: 18px; }
+.strip-highlight { color: rgba(255,255,255,.7); }
+
+/* ── SECTIONS COMMON ── */
+section { padding: 100px 48px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-label { color: var(--manga); margin-bottom: 14px; display: block; }
+.section-title { font-size: clamp(32px, 4vw, 52px); max-width: 600px; margin-bottom: 20px; }
+.section-desc { font-size: 16px; color: var(--muted); line-height: 1.8; max-width: 480px; }
+
+/* ── PROBLEMA ── */
+.problema { background: var(--white); }
+.problema-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.problema-left .section-title { max-width: 100%; }
+.problema-pains { margin-top: 32px; display: flex; flex-direction: column; gap: 10px; }
+.pain-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px; border-radius: 10px;
+  background: #FFF5F0; border: 1px solid #FFE0D0;
+  font-size: 14px; color: #7A2A0A; font-weight: 500;
+  transition: transform .2s;
+}
+.pain-item:hover { transform: translateX(4px); }
+.pain-x { color: #D4451A; font-weight: 700; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+.vibe-box {
+  background: var(--dark2); border-radius: 14px;
+  padding: 24px 28px; margin-top: 32px;
+}
+.vibe-box-text { font-size: 15px; color: rgba(255,255,255,.7); line-height: 1.7; }
+.vibe-box-text strong { color: var(--manga); }
+
+/* Right side visual */
+.problema-right {
+  background: var(--manga-ll);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.problema-right::after {
+  content: '';
+  position: absolute;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,134,10,.12) 0%, transparent 70%);
+  bottom: -60px; right: -60px;
+}
+.code-block {
+  background: var(--dark2); border-radius: 10px;
+  padding: 20px; font-family: 'Courier New', monospace;
+  font-size: 12px; line-height: 1.8;
+  margin-bottom: 12px;
+}
+.code-line { display: flex; align-items: center; gap: 10px; }
+.code-err { color: #FF6B6B; }
+.code-warn { color: #FFB347; }
+.code-ok { color: rgba(255,255,255,.3); }
+.code-badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 4px; margin-right: 4px;
+}
+.badge-err { background: rgba(255,107,107,.15); color: #FF6B6B; }
+.badge-warn { background: rgba(255,179,71,.15); color: #FFB347; }
+
+.problema-stat-box {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-top: 12px;
+}
+.stat-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px;
+  text-align: center;
+}
+.stat-n { font-family: 'Onest', sans-serif; font-size: 28px; font-weight: 800; color: var(--manga); }
+.stat-l { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── SOLUÇÃO ── */
+.solucao { background: var(--manga-ll); }
+.solucao-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+
+/* Notion mockup */
+.notion-mockup {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,.08);
+}
+.notion-header {
+  background: #F7F6F3; border-bottom: 1px solid var(--border);
+  padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+}
+.notion-header-dots { display: flex; gap: 5px; }
+.notion-header-dot { width: 10px; height: 10px; border-radius: 50%; }
+.notion-header-title { font-size: 12px; color: var(--muted); margin-left: 8px; font-weight: 500; }
+.notion-body { padding: 20px; }
+.notion-page-title { font-family: 'Onest', sans-serif; font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 16px; }
+.kanban { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.kanban-col { background: #F7F6F3; border-radius: 8px; padding: 10px; }
+.kanban-col-title { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+.kanban-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 10px; margin-bottom: 6px;
+  font-size: 11px; color: var(--text); font-weight: 500;
+  border-left: 3px solid;
+}
+.kanban-card.draft { border-left-color: #aaa; }
+.kanban-card.approved { border-left-color: #3B82F6; }
+.kanban-card.live { border-left-color: var(--verde); }
+
+/* ── O QUE INCLUI ── */
+.inclui { background: var(--white); }
+.inclui-header { text-align: center; margin-bottom: 56px; }
+.inclui-header .section-title { margin: 0 auto 16px; text-align: center; }
+.inclui-header .section-desc { margin: 0 auto; text-align: center; }
+.inclui-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.inclui-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px 32px;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+  position: relative; overflow: hidden;
+}
+.inclui-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--manga); opacity: 0; transition: opacity .2s;
+}
+.inclui-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.08); border-color: rgba(212,134,10,.2); }
+.inclui-card:hover::before { opacity: 1; }
+.card-icon { font-size: 28px; margin-bottom: 16px; }
+.card-title { font-family: 'Onest', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.card-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.card-tag {
+  display: inline-block; margin-top: 14px;
+  font-size: 11px; font-weight: 600; color: var(--manga);
+  background: var(--manga-l); border-radius: 100px;
+  padding: 3px 10px;
+}
+
+/* ── PARA QUEM ── */
+.para-quem { background: var(--manga-ll); }
+.para-quem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.pq-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 20px; padding: 36px;
+}
+.pq-card-title {
+  font-family: 'Onest', sans-serif; font-size: 20px; font-weight: 800;
+  margin-bottom: 24px; color: var(--text);
+}
+.pq-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  font-size: 14px; color: var(--text); line-height: 1.5;
+}
+.pq-item:last-child { border-bottom: none; }
+.pq-yes { color: var(--verde); font-weight: 700; font-size: 16px; flex-shrink: 0; }
+.pq-no { color: var(--muted); font-weight: 600; font-size: 16px; flex-shrink: 0; }
+
+/* ── PROVA ── */
+.prova {
+  background: var(--dark2);
+  text-align: center;
+}
+.prova .section-title { color: var(--white); margin: 0 auto 16px; text-align: center; max-width: 600px; }
+.prova .section-desc { color: rgba(255,255,255,.5); margin: 0 auto 56px; text-align: center; }
+.prova-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 640px; margin: 0 auto; }
+.metric {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  padding: 36px 24px; text-align: center;
+}
+.metric:first-child { border-radius: 16px 0 0 16px; }
+.metric:last-child { border-radius: 0 16px 16px 0; }
+.metric-n { font-family: 'Onest', sans-serif; font-size: 52px; font-weight: 800; color: var(--manga); line-height: 1; }
+.metric-l { font-size: 13px; color: rgba(255,255,255,.4); margin-top: 8px; line-height: 1.4; }
+
+/* ── FAQ ── */
+.faq-section { background: var(--white); }
+.faq-header { text-align: center; margin-bottom: 56px; }
+.faq-header .section-title { margin: 0 auto; text-align: center; }
+.faq-list { max-width: 720px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0; cursor: pointer;
+}
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-q {
+  font-family: 'Onest', sans-serif; font-size: 16px; font-weight: 700;
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--text);
+}
+.faq-icon { color: var(--manga); font-size: 20px; transition: transform .2s; flex-shrink: 0; }
+.faq-a {
+  font-size: 14px; color: var(--muted); line-height: 1.8;
+  margin-top: 12px; display: none;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-item.open .faq-a { display: block; }
+
+/* ── CTA FINAL ── */
+.cta-final {
+  background: var(--manga-ll);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-final::before {
+  content: '';
+  position: absolute; width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,134,10,.12) 0%, transparent 70%);
+  top: -200px; left: 50%; transform: translateX(-50%);
+}
+.cta-emoji { font-size: 64px; margin-bottom: 24px; display: block; }
+.cta-title {
+  font-size: clamp(40px, 6vw, 72px);
+  margin-bottom: 16px;
+}
+.cta-sub { font-size: 18px; color: var(--muted); margin-bottom: 40px; }
+.cta-price {
+  font-family: 'Onest', sans-serif; font-size: 48px; font-weight: 800;
+  color: var(--manga); margin-bottom: 8px;
+}
+.cta-price-label { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+.cta-trust {
+  margin-top: 24px; font-size: 13px; color: var(--muted);
+  display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+}
+.cta-trust-item { display: flex; align-items: center; gap: 6px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark2);
+  padding: 32px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-logo { font-family: 'Onest', sans-serif; font-weight: 800; font-size: 16px; color: var(--manga); }
+.footer-center { font-size: 12px; color: rgba(255,255,255,.3); }
+.footer-right { font-size: 12px; color: rgba(255,255,255,.3); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  section { padding: 64px 20px; }
+  .hero { padding: 100px 20px 60px; }
+  .strip { padding: 16px 20px; gap: 24px; }
+  .problema-grid, .solucao-grid, .para-quem-grid { grid-template-columns: 1fr; gap: 40px; }
+  .inclui-grid { grid-template-columns: 1fr; }
+  .prova-metrics { grid-template-columns: 1fr; }
+  .metric { border-radius: 12px !important; }
+  .hero-mockup { display: none; }
+  footer { flex-direction: column; text-align: center; }
+  .kanban { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">🥭 Manga</a>
+  <ul class="nav-links">
+    <li><a href="#problema">O problema</a></li>
+    <li><a href="#inclui">O que inclui</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Quero o Manga Essencial — R$ 67</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-badge">
+    <span class="stars">★★★★★</span>
+    <span>Construído com a metodologia que ensina</span>
+  </div>
+
+  <h1 class="display">
+    Seu produto com IA<br>vai <span class="break">quebrar.</span>
+  </h1>
+
+  <p class="hero-sub-cta">Chupa essa manga. 🥭</p>
+
+  <p class="hero-desc">
+    Não porque a ideia é ruim — mas porque você não tem estrutura.<br>
+    Pare de refazer o que já fez.
+  </p>
+
+  <div class="hero-buttons">
+    <a href="#cta" class="btn-primary">
+      Quero o Manga Essencial — R$ 67 →
+    </a>
+    <a href="#inclui" class="btn-secondary">Ver o que inclui</a>
+  </div>
+
+  <div class="hero-trust">
+    <div class="trust-item">⏱ Acesso imediato</div>
+    <div class="trust-item"><span class="dot"></span></div>
+    <div class="trust-item">📋 PDF + Workspace Notion</div>
+    <div class="trust-item"><span class="dot"></span></div>
+    <div class="trust-item">♾ Sem assinatura</div>
+  </div>
+
+  <div class="hero-mockup">
+    <div class="mockup-top">
+      <div class="mockup-dot" style="background:#FF5F57"></div>
+      <div class="mockup-dot" style="background:#FEBC2E"></div>
+      <div class="mockup-dot" style="background:#28C840"></div>
+      <span class="mockup-label">Manga Essencial · PDF</span>
+    </div>
+    <span class="mockup-emoji">🥭</span>
+    <div class="mockup-title">Manga <span>Essencial</span></div>
+    <div class="mockup-sub">Construa com IA sem quebrar depois.</div>
+    <div class="mockup-modules">
+      <div class="mockup-module">
+        <div class="mockup-module-num">01</div>
+        <div class="mockup-module-name">Template de Spec SDD</div>
+      </div>
+      <div class="mockup-module">
+        <div class="mockup-module-num">02</div>
+        <div class="mockup-module-name">Checklist Anti-Dívida</div>
+      </div>
+      <div class="mockup-module">
+        <div class="mockup-module-num">03</div>
+        <div class="mockup-module-name">10 Prompts para IA</div>
+      </div>
+      <div class="mockup-module">
+        <div class="mockup-module-num">04</div>
+        <div class="mockup-module-name">Workspace Notion + Kanban</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <span class="strip-item">Funciona com <span class="strip-highlight">Claude</span></span>
+  <span class="strip-sep">·</span>
+  <span class="strip-item"><span class="strip-highlight">ChatGPT</span></span>
+  <span class="strip-sep">·</span>
+  <span class="strip-item"><span class="strip-highlight">Cursor</span></span>
+  <span class="strip-sep">·</span>
+  <span class="strip-item"><span class="strip-highlight">Notion</span></span>
+  <span class="strip-sep">·</span>
+  <span class="strip-item"><span class="strip-highlight">GitHub Copilot</span></span>
+  <span class="strip-sep">·</span>
+  <span class="strip-item">Use com qualquer IA que você já usa.</span>
+</div>
+
+<!-- PROBLEMA -->
+<section class="problema reveal" id="problema">
+  <div class="section-inner">
+    <div class="problema-grid">
+      <div class="problema-left">
+        <span class="label section-label">O Problema</span>
+        <h2 class="display section-title">IA acelera a construção.<br>Mas também<br>acelera o caos.</h2>
+        <p class="section-desc">Você usou IA para construir rápido. A feature ficou pronta. Aí chegou o momento de mudar uma coisa — e ela quebrou três outras.</p>
+
+        <div class="problema-pains">
+          <div class="pain-item"><span class="pain-x">✗</span> Código funciona hoje, quebra amanhã</div>
+          <div class="pain-item"><span class="pain-x">✗</span> Você não sabe como seu sistema está estruturado</div>
+          <div class="pain-item"><span class="pain-x">✗</span> Cada nova feature vira um risco</div>
+          <div class="pain-item"><span class="pain-x">✗</span> Você perde mais tempo corrigindo do que construindo</div>
+          <div class="pain-item"><span class="pain-x">✗</span> Seu projeto fica impossível de escalar</div>
+        </div>
+
+        <div class="vibe-box">
+          <p class="vibe-box-text">Isso tem nome: <strong>vibe coding</strong> — pedir código para a IA sem especificar o que, como e por quê. E está destruindo projetos todos os dias.</p>
+        </div>
+      </div>
+
+      <div class="problema-right">
+        <div class="code-block">
+          <div class="code-line"><span class="badge-err code-badge">ERRO</span><span class="code-err">TypeError: Cannot read 'user'</span></div>
+          <div class="code-line" style="margin-top:6px"><span class="badge-warn code-badge">WARN</span><span class="code-warn">Feature quebrou auth flow</span></div>
+          <div class="code-line" style="margin-top:6px"><span class="badge-err code-badge">ERRO</span><span class="code-err">Undefined is not a function</span></div>
+          <div class="code-line" style="margin-top:6px"><span class="badge-warn code-badge">WARN</span><span class="code-warn">3 testes falhando</span></div>
+          <div class="code-line" style="margin-top:6px"><span class="code-ok">// TODO: entender o que aconteceu</span></div>
+          <div class="code-line"><span class="code-ok">// TODO: refazer do zero?</span></div>
+        </div>
+
+        <div class="problema-stat-box">
+          <div class="stat-card">
+            <div class="stat-n">70%</div>
+            <div class="stat-l">do código gerado com IA tem anti-patterns</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-n">3×</div>
+            <div class="stat-l">mais tempo consertando do que construindo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUÇÃO -->
+<section class="solucao reveal" id="solucao">
+  <div class="section-inner">
+    <div class="solucao-grid">
+      <div class="notion-mockup">
+        <div class="notion-header">
+          <div class="notion-header-dots">
+            <div class="notion-header-dot" style="background:#FF5F57"></div>
+            <div class="notion-header-dot" style="background:#FEBC2E"></div>
+            <div class="notion-header-dot" style="background:#28C840"></div>
+          </div>
+          <span class="notion-header-title">🥭 Manga Essencial — Workspace</span>
+        </div>
+        <div class="notion-body">
+          <div class="notion-page-title">06 — Board de Projetos</div>
+          <div class="kanban">
+            <div class="kanban-col">
+              <div class="kanban-col-title">Spec Draft</div>
+              <div class="kanban-card draft">Integração Stripe</div>
+              <div class="kanban-card draft">Notificações</div>
+            </div>
+            <div class="kanban-col">
+              <div class="kanban-col-title">Spec Aprovada</div>
+              <div class="kanban-card approved">Dashboard</div>
+              <div class="kanban-card approved">Cadastro</div>
+            </div>
+            <div class="kanban-col">
+              <div class="kanban-col-title">Publicado</div>
+              <div class="kanban-card live">Magic Link ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="label section-label">A Solução</span>
+        <h2 class="display section-title">Manga Essencial — pare de construir no escuro.</h2>
+        <p class="section-desc">Um sistema simples para organizar qualquer feature antes de pedir código para a IA. Templates, checklist, prompts e um workspace Notion com Kanban prontos para usar hoje.</p>
+        <a href="#cta" class="btn-primary" style="margin-top:32px;display:inline-flex">Quero o Manga Essencial — R$ 67 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE INCLUI -->
+<section class="inclui reveal" id="inclui">
+  <div class="section-inner">
+    <div class="inclui-header">
+      <span class="label section-label">O que você recebe</span>
+      <h2 class="display section-title">Tudo para parar de<br>construir no escuro</h2>
+      <p class="section-desc">PDF + Workspace Notion. Acesso imediato. Sem assinatura.</p>
+    </div>
+
+    <div class="inclui-grid">
+      <div class="inclui-card">
+        <div class="card-icon">📝</div>
+        <div class="card-title">Template de Spec SDD</div>
+        <p class="card-desc">Organize qualquer feature antes de pedir código. Inclui cenários Gherkin, critérios de aceite e campo "fora do escopo" para evitar scope creep.</p>
+        <span class="card-tag">PDF + Notion</span>
+      </div>
+
+      <div class="inclui-card">
+        <div class="card-icon">✅</div>
+        <div class="card-title">Checklist Anti-Dívida Técnica</div>
+        <p class="card-desc">20 pontos divididos em antes, durante e depois. Com sinais de alerta para quando você deve parar imediatamente. Checkboxes interativos no Notion.</p>
+        <span class="card-tag">PDF + Notion</span>
+      </div>
+
+      <div class="inclui-card">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">10 Prompts para IA</div>
+        <p class="card-desc">Prontos para copiar e usar no Claude, ChatGPT ou Cursor. Com contexto real — do rascunho de spec até o diagnóstico de dívida técnica.</p>
+        <span class="card-tag">PDF + Notion</span>
+      </div>
+
+      <div class="inclui-card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Workspace Notion + Kanban</div>
+        <p class="card-desc">Duplique com 1 clique. Board de features com 6 colunas do fluxo SDD, exemplo real preenchido (login com Magic Link) e área de projetos.</p>
+        <span class="card-tag">Notion exclusivo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM -->
+<section class="para-quem reveal">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label section-label" style="display:block;text-align:center;margin-bottom:12px">Para quem é</span>
+      <h2 class="display" style="font-size:clamp(28px,4vw,44px)">Isso é para você?</h2>
+    </div>
+    <div class="para-quem-grid">
+      <div class="pq-card">
+        <div class="pq-card-title">✓ Isso é pra você se:</div>
+        <div class="pq-item"><span class="pq-yes">✓</span> Está criando um produto com IA</div>
+        <div class="pq-item"><span class="pq-yes">✓</span> Não é dev experiente</div>
+        <div class="pq-item"><span class="pq-yes">✓</span> Quer lançar rápido, mas sem se sabotar</div>
+        <div class="pq-item"><span class="pq-yes">✓</span> Já sentiu que seu projeto está "virando bagunça"</div>
+        <div class="pq-item"><span class="pq-yes">✓</span> Já pediu código para a IA e ela quebrou algo</div>
+      </div>
+      <div class="pq-card" style="border-color:var(--border)">
+        <div class="pq-card-title" style="color:var(--muted)">— Pode pular se:</div>
+        <div class="pq-item"><span class="pq-no">—</span> Você já segue processos avançados de engenharia</div>
+        <div class="pq-item"><span class="pq-no">—</span> Trabalha em times com rituais definidos</div>
+        <div class="pq-item"><span class="pq-no">—</span> Não usa IA para desenvolver</div>
+        <div class="pq-item"><span class="pq-no">—</span> Nunca precisou refazer uma feature que já funcionava</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVA -->
+<section class="prova reveal">
+  <div class="section-inner">
+    <span class="label" style="color:rgba(255,255,255,.3);display:block;text-align:center;margin-bottom:16px">Por que acreditar</span>
+    <h2 class="display section-title">Construído com a<br>metodologia que ensina</h2>
+    <p class="section-desc">O Manga Essencial foi criado usando exatamente o processo que você vai aprender. Cada módulo, cada prompt e cada template foram testados na prática antes de chegar aqui.</p>
+    <div class="prova-metrics">
+      <div class="metric">
+        <div class="metric-n">4</div>
+        <div class="metric-l">módulos prontos<br>para usar</div>
+      </div>
+      <div class="metric">
+        <div class="metric-n">10</div>
+        <div class="metric-l">prompts<br>estruturados</div>
+      </div>
+      <div class="metric">
+        <div class="metric-n">0</div>
+        <div class="metric-l">vibe<br>coding</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section reveal" id="faq">
+  <div class="section-inner">
+    <div class="faq-header">
+      <span class="label section-label" style="display:block;text-align:center;margin-bottom:12px">Dúvidas</span>
+      <h2 class="display" style="font-size:clamp(28px,4vw,44px);text-align:center">Perguntas frequentes</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">O que exatamente eu recebo? <span class="faq-icon">+</span></div>
+        <div class="faq-a">PDF de 7 páginas com todos os módulos + Workspace Notion duplicável com template de spec, checklist interativo, 10 prompts completos, exemplo real preenchido e Kanban de features. Acesso imediato após o pagamento.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Precisa saber programar? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Não. O Manga Essencial foi feito para quem usa IA para criar produtos — seja você dev, designer, founder ou qualquer pessoa que já pediu código para uma IA e se perdeu no meio do caminho.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Para qual IA funciona? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Para qualquer uma. Claude, ChatGPT, Cursor, GitHub Copilot. Os prompts são genéricos e funcionam em todas as ferramentas de IA que aceitam texto como entrada.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">E se eu não gostar? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Você vê o conteúdo completo antes de comprar. O que está no PDF e no Notion é exatamente o que é descrito aqui — sem surpresas.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Por que R$ 67 e não mais caro? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Porque o objetivo é que você compre, use e veja resultado. Depois disso, o próximo produto do Manga vai fazer ainda mais sentido para você. Queremos que você comece estruturado hoje.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final reveal" id="cta">
+  <div class="section-inner" style="position:relative">
+    <span class="cta-emoji">🥭</span>
+    <h2 class="display cta-title">Chupa essa manga.</h2>
+    <p class="cta-sub">Pare de refazer o que já fez. Comece estruturado agora.</p>
+    <div class="cta-price">R$ 67</div>
+    <p class="cta-price-label">Pagamento único · Sem assinatura</p>
+    <a href="#" class="btn-primary" style="font-size:17px;padding:18px 40px">
+      Quero o Manga Essencial →
+    </a>
+    <div class="cta-trust">
+      <div class="cta-trust-item">⏱ Acesso imediato</div>
+      <div class="cta-trust-item">📋 PDF + Workspace Notion</div>
+      <div class="cta-trust-item">♾ Acesso vitalício</div>
+      <div class="cta-trust-item">🔒 Pagamento seguro</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🥭 Manga · Um produto Cacho</div>
+  <div class="footer-center">© 2026 Cacho</div>
+  <div class="footer-right">Início · FAQ · Notion</div>
+</footer>
+
+<script>
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
