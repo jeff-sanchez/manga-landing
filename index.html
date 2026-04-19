@@ -67,10 +67,10 @@ nav {
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
 /* scroll reveal classes */
-.r   { opacity: 0; transform: translateY(36px);  transition: opacity .7s ease, transform .7s ease; }
-.rl  { opacity: 0; transform: translateX(-36px); transition: opacity .7s ease, transform .7s ease; }
-.rr  { opacity: 0; transform: translateX(36px);  transition: opacity .7s ease, transform .7s ease; }
-.r.in, .rl.in, .rr.in { opacity: 1; transform: translate(0); }
+.r   { opacity: 0; transform: translateY(40px);  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.rl  { opacity: 0; transform: translateX(-40px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.rr  { opacity: 0; transform: translateX(40px);  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.r.in, .rl.in, .rr.in { opacity: 1; transform: translate(0,0); }
 
 .sg > * { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
 .sg.in > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
@@ -127,7 +127,11 @@ nav {
   background: var(--dark2); border-radius: 20px; padding: 32px 36px;
   text-align: left; position: relative; overflow: hidden;
   box-shadow: 0 40px 100px rgba(0,0,0,.22), 0 0 0 1px rgba(255,255,255,.04);
-  animation: fadeUp .8s .7s ease both;
+  animation: fadeUp .8s .7s ease both, floatMock 6s 1.5s ease-in-out infinite;
+}
+@keyframes floatMock {
+  0%,100% { transform: translateY(0); box-shadow: 0 40px 100px rgba(0,0,0,.22); }
+  50% { transform: translateY(-8px); box-shadow: 0 56px 120px rgba(0,0,0,.28); }
 }
 .hero-mockup::before {
   content: ''; position: absolute; width: 360px; height: 360px; border-radius: 50%;
@@ -148,7 +152,17 @@ nav {
 .mock-name { font-size: 12px; color: rgba(255,255,255,.62); font-weight: 500; }
 
 /* ── STRIP ── */
-.strip { background: var(--dark2); padding: 18px 48px; display: flex; align-items: center; justify-content: center; gap: 36px; flex-wrap: wrap; }
+.strip { background: var(--dark2); padding: 0; overflow: hidden; height: 52px; display: flex; align-items: center; position: relative; }
+.strip-track {
+  display: flex; align-items: center; gap: 36px;
+  animation: scrollStrip 22s linear infinite;
+  white-space: nowrap; padding: 0 36px;
+}
+.strip:hover .strip-track { animation-play-state: paused; }
+@keyframes scrollStrip {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 .strip-t { font-size: 13px; color: rgba(255,255,255,.32); font-weight: 500; white-space: nowrap; }
 .strip-t b { color: rgba(255,255,255,.62); font-weight: 600; }
 .strip-sep { color: rgba(255,255,255,.1); }
@@ -164,6 +178,11 @@ section { padding: 100px 48px; }
 .problema { background: var(--warm); }
 .prob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .prob-pains { margin-top: 28px; display: flex; flex-direction: column; gap: 8px; }
+.rl.in .pain:nth-child(1) { animation: fadeUp .5s .1s ease both; }
+.rl.in .pain:nth-child(2) { animation: fadeUp .5s .18s ease both; }
+.rl.in .pain:nth-child(3) { animation: fadeUp .5s .26s ease both; }
+.rl.in .pain:nth-child(4) { animation: fadeUp .5s .34s ease both; }
+.rl.in .pain:nth-child(5) { animation: fadeUp .5s .42s ease both; }
 .pain { display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px; border-radius: 10px; background: #FFF5F0; border: 1px solid #FFE0D0; font-size: 14px; color: #7A2A0A; font-weight: 500; transition: transform .2s; }
 .pain:hover { transform: translateX(5px); }
 .pain-x { color: #D4451A; font-weight: 700; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
@@ -198,7 +217,8 @@ section { padding: 100px 48px; }
 .kanban { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .kb-col { background: #F7F6F3; border-radius: 8px; padding: 10px; }
 .kb-col-t { font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
-.kb-card { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; font-size: 11px; color: var(--text); font-weight: 500; border-left: 3px solid; transition: transform .15s; }
+.kb-card { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; font-size: 11px; color: var(--text); font-weight: 500; border-left: 3px solid; transition: transform .2s cubic-bezier(.16,1,.3,1), box-shadow .2s; }
+.kb-card:hover { transform: translateX(3px) translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
 .kb-card:hover { transform: translateY(-1px); }
 .kb-draft { border-left-color: #bbb; }
 .kb-ok { border-left-color: #3B82F6; }
@@ -216,7 +236,11 @@ section { padding: 100px 48px; }
 .inclui-hd .sec-title { margin: 0 auto 16px; text-align: center; }
 .inclui-hd .sec-desc { margin: 0 auto; text-align: center; }
 .cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-.prod-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 28px 30px; transition: transform .25s, box-shadow .25s, border-color .25s; position: relative; overflow: hidden; }
+.prod-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 28px 30px; transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease, border-color .3s ease; position: relative; overflow: hidden; }
+.cards-grid .prod-card:nth-child(1) { transition-delay: 0s; }
+.cards-grid .prod-card:nth-child(2) { transition-delay: .05s; }
+.cards-grid .prod-card:nth-child(3) { transition-delay: .1s; }
+.cards-grid .prod-card:nth-child(4) { transition-delay: .15s; }
 .prod-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--manga), transparent); opacity: 0; transition: opacity .25s; }
 .prod-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.08); border-color: rgba(212,134,10,.25); }
 .prod-card:hover::after { opacity: 1; }
@@ -243,7 +267,8 @@ section { padding: 100px 48px; }
 .prova .sec-title { color: var(--white); margin: 0 auto 16px; text-align: center; max-width: 560px; }
 .prova .sec-desc { color: rgba(255,255,255,.42); margin: 0 auto 52px; text-align: center; }
 .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 620px; margin: 0 auto; }
-.metric { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06); padding: 40px 20px; text-align: center; transition: background .2s; }
+.metric { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06); padding: 40px 20px; text-align: center; transition: background .3s, transform .3s cubic-bezier(.16,1,.3,1); }
+.metric:hover { transform: translateY(-4px); background: rgba(255,255,255,.08); }
 .metric:hover { background: rgba(255,255,255,.07); }
 .metric:first-child { border-radius: 16px 0 0 16px; }
 .metric:last-child { border-radius: 0 16px 16px 0; }
@@ -259,7 +284,7 @@ section { padding: 100px 48px; }
 .faq-item:first-child { border-top: 1px solid var(--border); }
 .faq-q { font-size: 16px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; color: var(--text); gap: 16px; }
 .faq-ico { color: var(--manga); font-size: 22px; font-weight: 300; transition: transform .3s; flex-shrink: 0; line-height: 1; }
-.faq-a { font-size: 14px; color: var(--muted); line-height: 1.8; max-height: 0; overflow: hidden; transition: max-height .4s ease, opacity .3s ease, margin .3s ease; opacity: 0; }
+.faq-a { font-size: 14px; color: var(--muted); line-height: 1.8; max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.16,1,.3,1), opacity .4s ease, margin .4s ease; opacity: 0; }
 .faq-item.open .faq-ico { transform: rotate(45deg); }
 .faq-item.open .faq-a { max-height: 200px; opacity: 1; margin-top: 12px; }
 
@@ -267,7 +292,7 @@ section { padding: 100px 48px; }
 .cta-sec { background: var(--dark2); text-align: center; position: relative; overflow: hidden; }
 .cta-sec::before { content: ''; position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(212,134,10,.11) 0%, transparent 65%); top: -200px; left: 50%; transform: translateX(-50%); pointer-events: none; }
 .cta-sec .inner { position: relative; }
-.cta-emoji { font-size: 72px; margin-bottom: 24px; display: block; animation: float 3s ease-in-out infinite; }
+.cta-emoji { font-size: 72px; margin-bottom: 24px; display: block; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 0 24px rgba(212,134,10,.4)); }
 .cta-title { font-size: clamp(40px, 6vw, 76px); font-weight: 800; letter-spacing: -.03em; color: var(--white); margin-bottom: 16px; }
 .cta-sub { font-size: 18px; color: rgba(255,255,255,.48); margin-bottom: 40px; }
 .cta-price { font-size: 52px; font-weight: 800; color: var(--manga); margin-bottom: 6px; }
@@ -347,14 +372,7 @@ footer { background: #0D0C0C; padding: 32px 48px; display: flex; align-items: ce
 </section>
 
 <!-- STRIP -->
-<div class="strip">
-  <span class="strip-t">Funciona com <b>Claude</b></span><span class="strip-sep">·</span>
-  <span class="strip-t"><b>ChatGPT</b></span><span class="strip-sep">·</span>
-  <span class="strip-t"><b>Cursor</b></span><span class="strip-sep">·</span>
-  <span class="strip-t"><b>Notion</b></span><span class="strip-sep">·</span>
-  <span class="strip-t"><b>GitHub Copilot</b></span><span class="strip-sep">·</span>
-  <span class="strip-t">Use com qualquer IA que você já usa.</span>
-</div>
+<div class="strip"><div class="strip-track"><span class="strip-t">Funciona com <b>Claude</b></span><span class="strip-sep">·</span><span class="strip-t"><b>ChatGPT</b></span><span class="strip-sep">·</span><span class="strip-t"><b>Cursor</b></span><span class="strip-sep">·</span><span class="strip-t"><b>Notion</b></span><span class="strip-sep">·</span><span class="strip-t"><b>GitHub Copilot</b></span><span class="strip-sep">·</span><span class="strip-t">Use com qualquer IA que você já usa.</span><span class="strip-sep" style="margin:0 18px">·</span><span class="strip-t">Funciona com <b>Claude</b></span><span class="strip-sep">·</span><span class="strip-t"><b>ChatGPT</b></span><span class="strip-sep">·</span><span class="strip-t"><b>Cursor</b></span><span class="strip-sep">·</span><span class="strip-t"><b>Notion</b></span><span class="strip-sep">·</span><span class="strip-t"><b>GitHub Copilot</b></span><span class="strip-sep">·</span><span class="strip-t">Use com qualquer IA que você já usa.</span><span class="strip-sep" style="margin:0 18px">·</span></div></div>
 
 <!-- PROBLEMA -->
 <section class="problema" id="problema">
