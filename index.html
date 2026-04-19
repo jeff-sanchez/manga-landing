@@ -841,8 +841,10 @@ footer {
 const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
+}, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
 reveals.forEach(r => observer.observe(r));
+// Fallback: show all if observer fails
+setTimeout(() => { reveals.forEach(r => r.classList.add('visible')); }, 500);
 
 // FAQ accordion
 document.querySelectorAll('.faq-item').forEach(item => {
