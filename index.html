@@ -7,579 +7,350 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root {
-  --manga: #E07B00;
-  --manga-l: #FFF6E0;
-  --manga-ll: #FFFBF2;
-  --verde: #1F7A35;
-  --dark2: #1C1B1A;
-  --muted: #7A7169;
-  --border: #EDE7D9;
-  --white: #FFFFFF;
-  --text: #1C1B1A;
-  --warm: #FFFDF8;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Onest', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
-
-/* NAV */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px; height: 64px;
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: background .4s ease, border-color .4s ease, backdrop-filter .4s ease;
-  animation: fromTop .5s ease both;
-}
-nav.scrolled {
-  background: rgba(255,253,248,.96);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(20px);
-}
-nav.scrolled .nav-links a { color: var(--muted); }
-nav .nav-links a { color: rgba(255,255,255,.8); transition: color .3s; }
-nav .nav-logo { color: var(--manga); }
-nav.scrolled .nav-links a:hover { color: var(--text); }
-nav .nav-links a:hover { color: var(--white); }
-@keyframes fromTop { from { transform: translateY(-64px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.nav-logo { font-weight: 800; font-size: 20px; color: var(--manga); text-decoration: none; }
-.nav-links { display: flex; gap: 32px; list-style: none; }
-.nav-links a { font-size: 14px; color: var(--muted); text-decoration: none; font-weight: 500; transition: color .2s; }
-.nav-links a:hover { color: var(--text); }
-.nav-cta { background: var(--manga); color: var(--white); border: none; border-radius: 100px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: transform .2s, opacity .2s; white-space: nowrap; }
-.nav-cta:hover { opacity: .88; transform: translateY(-1px); }
-
-/* BUTTONS */
-.btn-p { background: var(--manga); color: var(--white); border: none; border-radius: 100px; padding: 16px 32px; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s; box-shadow: 0 4px 24px rgba(224,123,0,.35); font-family: 'Onest', sans-serif; }
-.btn-p:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(224,123,0,.45); }
-.btn-s { background: transparent; color: var(--text); border: 1.5px solid var(--border); border-radius: 100px; padding: 16px 28px; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; transition: border-color .2s, color .2s; font-family: 'Onest', sans-serif; }
-.btn-s:hover { border-color: var(--manga); color: var(--manga); }
-
-/* KEYFRAMES */
-@keyframes fadeUp   { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeLeft { from { opacity: 0; transform: translateX(-36px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes fadeRight{ from { opacity: 0; transform: translateX(36px);  } to { opacity: 1; transform: translateX(0); } }
-@keyframes glowPulse{ 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.1);opacity:.7} }
-@keyframes float    { 0%,100%{transform:translateY(0);box-shadow:0 40px 100px rgba(0,0,0,.22)} 50%{transform:translateY(-10px);box-shadow:0 56px 120px rgba(0,0,0,.3)} }
-@keyframes scrollX  { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-@keyframes emojiFloat{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-
-/* SCROLL REVEAL — JS controlled */
-.sr { opacity: 0; transform: translateY(40px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
-.sl { opacity: 0; transform: translateX(-40px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
-.sr2{ opacity: 0; transform: translateX(40px);  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
-.sr.on, .sl.on, .sr2.on { opacity: 1; transform: translate(0); }
-
-/* STAGGER */
-.sg > * { opacity: 0; transform: translateY(22px); transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); }
-.sg.on > *:nth-child(1){ opacity:1;transform:none;transition-delay:0s }
-.sg.on > *:nth-child(2){ opacity:1;transform:none;transition-delay:.1s }
-.sg.on > *:nth-child(3){ opacity:1;transform:none;transition-delay:.2s }
-.sg.on > *:nth-child(4){ opacity:1;transform:none;transition-delay:.3s }
-.sg.on > *:nth-child(5){ opacity:1;transform:none;transition-delay:.4s }
-
-/* HERO — tudo visível imediatamente via CSS animation, sem JS */
-.hero {
-  display: flex; flex-direction: column;
-  align-items: center; text-align: center;
-  padding: 120px 48px 80px; background: var(--warm); position: relative; overflow: hidden;
-}
-.glow-1 { position:absolute; width:680px; height:680px; border-radius:50%; background:radial-gradient(circle,rgba(224,123,0,.12) 0%,transparent 65%); top:-200px; right:-140px; pointer-events:none; animation:glowPulse 7s ease-in-out infinite; }
-.glow-2 { position:absolute; width:480px; height:480px; border-radius:50%; background:radial-gradient(circle,rgba(224,123,0,.07) 0%,transparent 65%); bottom:-100px; left:-90px; pointer-events:none; animation:glowPulse 9s ease-in-out infinite reverse; }
-.hero > * { position:relative; z-index:1; }
-
-.hero-badge { display:inline-flex; align-items:center; gap:8px; background:var(--manga-l); border:1px solid rgba(224,123,0,.3); border-radius:100px; padding:6px 16px; margin-bottom:32px; animation:fadeUp .7s .1s ease both; }
-.hero-badge .stars { color:var(--manga); font-size:12px; }
-.hero-badge span { font-size:12px; color:var(--manga); font-weight:500; }
-
-.hero h1 { font-size:clamp(50px,7vw,90px); font-weight:800; line-height:1.0; letter-spacing:-.03em; max-width:820px; animation:fadeUp .7s .2s ease both; }
-.hero h1 .accent { color:var(--manga); }
-
-.hero-tagline { font-size:clamp(18px,2.5vw,26px); font-weight:700; color:var(--manga); margin:16px 0 24px; animation:fadeUp .7s .3s ease both; }
-.hero-desc { font-size:17px; color:var(--muted); line-height:1.7; max-width:520px; margin-bottom:40px; animation:fadeUp .7s .4s ease both; }
-
-.hero-btns { display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; margin-bottom:32px; animation:fadeUp .7s .5s ease both; }
-
-.hero-trust { display:flex; gap:24px; align-items:center; justify-content:center; flex-wrap:wrap; animation:fadeUp .7s .6s ease both; }
-.ti { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); font-weight:500; }
-.ts { width:4px; height:4px; border-radius:50%; background:var(--border); }
-
-/* MOCKUP — flutua como o Flowline */
-.hero-mockup {
-  width:100%; max-width:720px; margin:48px auto 0;
-  background: rgba(28,27,26,.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius:24px; padding:32px 36px; text-align:left;
-  position:relative; overflow:hidden;
-  animation:fadeUp .8s .7s ease both, float 6s 1.5s ease-in-out infinite;
-  box-shadow: 0 40px 100px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06);
-}
-.hero-mockup::before { content:''; position:absolute; width:360px; height:360px; border-radius:50%; background:radial-gradient(circle,rgba(224,123,0,.18) 0%,transparent 65%); top:-130px; right:-60px; pointer-events:none; }
-.mock-bar { display:flex; align-items:center; gap:7px; margin-bottom:22px; }
-.mock-dot { width:10px; height:10px; border-radius:50%; }
-.mock-lbl { font-size:10px; color:rgba(255,255,255,.2); letter-spacing:.12em; text-transform:uppercase; margin-left:auto; }
-.mock-emoji { font-size:40px; margin-bottom:10px; display:block; }
-.mock-title { font-size:28px; font-weight:800; color:var(--white); margin-bottom:4px; }
-.mock-title span { color:var(--manga); }
-.mock-sub { font-size:13px; color:rgba(255,255,255,.3); margin-bottom:24px; }
-.mock-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.mock-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:10px; padding:12px 14px; transition:background .2s; }
-.mock-card:hover { background:rgba(255,255,255,.09); }
-.mock-num { font-size:10px; color:var(--manga); font-weight:700; margin-bottom:4px; letter-spacing:.06em; }
-.mock-name { font-size:12px; color:rgba(255,255,255,.6); font-weight:500; }
-
-/* STRIP — scroll infinito como Flowline */
-.strip { background:var(--dark2); padding:0; overflow:hidden; height:52px; display:flex; align-items:center; }
-.strip-track { display:flex; align-items:center; gap:40px; animation:scrollX 20s linear infinite; white-space:nowrap; padding:0 20px; }
-.strip:hover .strip-track { animation-play-state:paused; }
-.si { font-size:13px; color:rgba(255,255,255,.32); font-weight:500; }
-.si b { color:rgba(255,255,255,.65); font-weight:600; }
-.sep { color:rgba(255,255,255,.12); }
-
-/* SECTIONS */
-section { padding:100px 48px; }
-.inner { max-width:1100px; margin:0 auto; }
-.sec-lbl { font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--manga); margin-bottom:14px; display:block; }
-.sec-title { font-size:clamp(30px,4vw,50px); font-weight:800; letter-spacing:-.03em; line-height:1.05; max-width:580px; margin-bottom:20px; }
-.sec-desc { font-size:16px; color:var(--muted); line-height:1.8; max-width:460px; }
-
-/* PROBLEMA */
-.problema { background:var(--warm); }
-.prob-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
-.prob-pains { margin-top:28px; display:flex; flex-direction:column; gap:8px; }
-.pain { display:flex; align-items:flex-start; gap:12px; padding:13px 16px; border-radius:10px; background:#FFF5F0; border:1px solid #FFE0D0; font-size:14px; color:#7A2A0A; font-weight:500; transition:transform .3s cubic-bezier(.16,1,.3,1); }
-.pain:hover { transform:translateX(6px); }
-.pain-x { color:#D4451A; font-weight:700; font-size:16px; flex-shrink:0; margin-top:1px; }
-.vibe-box { background:var(--dark2); border-radius:14px; padding:22px 26px; margin-top:24px; border-left:3px solid var(--manga); }
-.vibe-box p { font-size:15px; color:rgba(255,255,255,.68); line-height:1.7; }
-.vibe-box strong { color:var(--manga); }
-
-.prob-right { background:var(--manga-l); border:1px solid rgba(224,123,0,.2); border-radius:20px; padding:32px; position:relative; overflow:hidden; }
-.prob-right::after { content:''; position:absolute; width:240px; height:240px; border-radius:50%; background:radial-gradient(circle,rgba(224,123,0,.14) 0%,transparent 70%); bottom:-70px; right:-60px; pointer-events:none; }
-.code-block { background:var(--dark2); border-radius:12px; padding:20px; font-family:'Courier New',monospace; font-size:12px; line-height:1.9; margin-bottom:14px; box-shadow:0 8px 32px rgba(0,0,0,.2); }
-.cl { display:flex; align-items:center; gap:10px; }
-.ce { color:#FF6B6B; }
-.cw { color:#FFB347; }
-.cc { color:rgba(255,255,255,.18); }
-.cb { display:inline-block; font-size:9px; font-weight:700; padding:2px 7px; border-radius:4px; margin-right:4px; }
-.cb-e { background:rgba(255,107,107,.15); color:#FF6B6B; }
-.cb-w { background:rgba(255,179,71,.15); color:#FFB347; }
-.stat-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.stat { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:16px; text-align:center; }
-.stat-n { font-size:30px; font-weight:800; color:var(--manga); }
-.stat-l { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.4; }
-
-/* SOLUÇÃO */
-.solucao { background:var(--white); }
-.sol-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
-.notion-mock { background:var(--white); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:0 12px 60px rgba(0,0,0,.08); }
-.notion-bar { background:#F7F6F3; border-bottom:1px solid var(--border); padding:12px 16px; display:flex; align-items:center; gap:7px; }
-.notion-dots { display:flex; gap:5px; }
-.notion-dot { width:10px; height:10px; border-radius:50%; }
-.notion-bar-t { font-size:12px; color:var(--muted); margin-left:8px; font-weight:500; }
-.notion-body { padding:20px; }
-.notion-pg-t { font-size:15px; font-weight:800; margin-bottom:14px; }
-.kanban { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-.kb-col { background:#F7F6F3; border-radius:8px; padding:10px; }
-.kb-col-t { font-size:9px; font-weight:700; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; }
-.kb-card { background:var(--white); border:1px solid var(--border); border-radius:6px; padding:8px 10px; margin-bottom:6px; font-size:11px; color:var(--text); font-weight:500; border-left:3px solid; transition:transform .2s cubic-bezier(.16,1,.3,1); }
-.kb-card:hover { transform:translateX(3px); }
-.kb-d { border-left-color:#bbb; }
-.kb-o { border-left-color:#3B82F6; }
-.kb-l { border-left-color:var(--verde); }
-
-.teaser { margin-top:28px; padding:18px 22px; background:var(--warm); border:1px dashed rgba(224,123,0,.35); border-radius:12px; display:flex; align-items:center; gap:14px; }
-.teaser-ico { font-size:22px; flex-shrink:0; }
-.teaser-lbl { font-size:10px; font-weight:700; color:var(--manga); text-transform:uppercase; letter-spacing:.1em; margin-bottom:3px; }
-.teaser-txt { font-size:13px; color:var(--muted); line-height:1.5; }
-.teaser-txt strong { color:var(--text); font-weight:600; }
-
-/* O QUE INCLUI */
-.inclui { background:var(--manga-ll); }
-.inclui-hd { text-align:center; margin-bottom:52px; }
-.inclui-hd .sec-title { margin:0 auto 16px; text-align:center; }
-.inclui-hd .sec-desc { margin:0 auto; text-align:center; }
-.cards { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-.card { background:var(--white); border:1px solid var(--border); border-radius:18px; padding:28px 30px; transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s, border-color .3s; position:relative; overflow:hidden; }
-.card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--manga),transparent); opacity:0; transition:opacity .3s; }
-.card:hover { transform:translateY(-6px); box-shadow:0 20px 60px rgba(0,0,0,.09); border-color:rgba(224,123,0,.25); }
-.card:hover::after { opacity:1; }
-.card-ico { font-size:30px; margin-bottom:16px; }
-.card-t { font-size:18px; font-weight:700; margin-bottom:8px; }
-.card-d { font-size:14px; color:var(--muted); line-height:1.7; }
-.card-tag { display:inline-block; margin-top:14px; font-size:11px; font-weight:600; color:var(--manga); background:var(--manga-l); border-radius:100px; padding:3px 10px; }
-
-/* PARA QUEM */
-.paraquem { background:var(--white); }
-.pq-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-.pq-card { background:var(--manga-ll); border:1px solid rgba(224,123,0,.15); border-radius:20px; padding:36px; }
-.pq-t { font-size:18px; font-weight:800; margin-bottom:22px; }
-.pq-item { display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); font-size:14px; line-height:1.5; }
-.pq-item:last-child { border-bottom:none; }
-.pq-y { color:var(--verde); font-weight:700; font-size:15px; flex-shrink:0; }
-.pq-n { color:var(--muted); font-weight:600; font-size:15px; flex-shrink:0; }
-
-/* PROVA */
-.prova { background:var(--dark2); text-align:center; position:relative; overflow:hidden; }
-.prova::before { content:''; position:absolute; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle,rgba(224,123,0,.09) 0%,transparent 65%); top:-280px; left:50%; transform:translateX(-50%); pointer-events:none; }
-.prova .inner { position:relative; }
-.prova .sec-lbl { color:rgba(255,255,255,.28); }
-.prova .sec-title { color:var(--white); margin:0 auto 16px; text-align:center; max-width:560px; }
-.prova .sec-desc { color:rgba(255,255,255,.42); margin:0 auto 52px; text-align:center; }
-.metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; max-width:620px; margin:0 auto; }
-.metric { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); padding:40px 20px; text-align:center; transition:background .2s, transform .3s cubic-bezier(.16,1,.3,1); }
-.metric:hover { background:rgba(255,255,255,.08); transform:translateY(-4px); }
-.metric:first-child { border-radius:16px 0 0 16px; }
-.metric:last-child { border-radius:0 16px 16px 0; }
-.metric-n { font-size:56px; font-weight:800; color:var(--manga); line-height:1; }
-.metric-l { font-size:13px; color:rgba(255,255,255,.32); margin-top:10px; line-height:1.5; }
-
-/* FAQ */
-.faq-sec { background:var(--warm); }
-.faq-hd { text-align:center; margin-bottom:52px; }
-.faq-list { max-width:680px; margin:0 auto; }
-.faq-item { border-bottom:1px solid var(--border); padding:20px 0; cursor:pointer; }
-.faq-item:first-child { border-top:1px solid var(--border); }
-.faq-q { font-size:16px; font-weight:700; display:flex; justify-content:space-between; align-items:center; color:var(--text); gap:16px; }
-.faq-ico { color:var(--manga); font-size:22px; font-weight:300; transition:transform .3s cubic-bezier(.16,1,.3,1); flex-shrink:0; line-height:1; }
-.faq-a { font-size:14px; color:var(--muted); line-height:1.8; max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.16,1,.3,1), opacity .4s ease, margin .4s ease; opacity:0; }
-.faq-item.open .faq-ico { transform:rotate(45deg); }
-.faq-item.open .faq-a { max-height:200px; opacity:1; margin-top:12px; }
-
-/* CTA */
-.cta-sec { background:var(--dark2); text-align:center; position:relative; overflow:hidden; }
-.cta-sec::before { content:''; position:absolute; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle,rgba(224,123,0,.11) 0%,transparent 65%); top:-200px; left:50%; transform:translateX(-50%); pointer-events:none; }
-.cta-sec .inner { position:relative; }
-.cta-emoji { font-size:72px; margin-bottom:24px; display:block; animation:emojiFloat 3s ease-in-out infinite; filter:drop-shadow(0 0 28px rgba(224,123,0,.45)); }
-.cta-title { font-size:clamp(40px,6vw,76px); font-weight:800; letter-spacing:-.03em; color:var(--white); margin-bottom:16px; }
-.cta-sub { font-size:18px; color:rgba(255,255,255,.48); margin-bottom:40px; }
-.cta-price { font-size:52px; font-weight:800; color:var(--manga); margin-bottom:6px; }
-.cta-price-sub { font-size:14px; color:rgba(255,255,255,.3); margin-bottom:32px; }
-.cta-trust { margin-top:28px; font-size:13px; color:rgba(255,255,255,.32); display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
-.cta-ti { display:flex; align-items:center; gap:6px; }
-
-/* FOOTER */
-footer { background:#0D0C0C; padding:32px 48px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
-.foot-logo { font-weight:800; font-size:16px; color:var(--manga); }
-.foot-c, .foot-r { font-size:12px; color:rgba(255,255,255,.2); }
-
-/* RESPONSIVE */
-@media (max-width:768px) {
-  nav { padding:0 20px; }
-  .nav-links { display:none; }
-  section { padding:64px 20px; }
-  .hero { padding:100px 20px 60px; }
-  .prob-grid, .sol-grid, .pq-grid { grid-template-columns:1fr; gap:40px; }
-  .cards { grid-template-columns:1fr; }
-  .metrics { grid-template-columns:1fr; gap:8px; }
-  .metric { border-radius:12px !important; }
-  .hero-mockup { display:none; }
-  footer { flex-direction:column; text-align:center; }
-  .kanban { grid-template-columns:1fr 1fr; }
+:root{--o:#E07B00;--ol:#FFF3E0;--oll:#FFFBF2;--g:#1F7A35;--dk:#1A1918;--mu:#7A7169;--bd:#EDE7D9;--tx:#1A1918;--wm:#FFFDF8}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Onest',-apple-system,'Segoe UI',sans-serif;background:#fff;color:var(--tx);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:transparent;border-bottom:1px solid transparent;transition:all .4s ease}
+nav.solid{background:rgba(255,253,248,.96);border-bottom-color:var(--bd);backdrop-filter:blur(20px)}
+.nl{font-weight:800;font-size:19px;color:var(--o);text-decoration:none}
+.nv{display:flex;gap:28px;list-style:none}
+.nv a{font-size:13px;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
+.nv a:hover{color:var(--tx)}
+.nc{background:var(--o);color:#fff;border:none;border-radius:100px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform .2s,opacity .2s}
+.nc:hover{opacity:.88;transform:translateY(-1px)}
+.bp{background:var(--o);color:#fff;border:none;border-radius:100px;padding:14px 28px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .3s,box-shadow .3s;box-shadow:0 4px 24px rgba(224,123,0,.35);font-family:'Onest',sans-serif}
+.bp:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(224,123,0,.5)}
+.bs{background:transparent;color:var(--tx);border:1.5px solid var(--bd);border-radius:100px;padding:14px 24px;font-size:15px;font-weight:500;cursor:pointer;text-decoration:none;transition:border-color .2s,color .2s;font-family:'Onest',sans-serif}
+.bs:hover{border-color:var(--o);color:var(--o)}
+@keyframes gp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.1)}}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes sx{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes ef{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero-wrap{position:relative;background:var(--wm);overflow:hidden}
+.glow-a{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.13) 0%,transparent 65%);top:-160px;right:-100px;pointer-events:none;animation:gp 7s ease-in-out infinite}
+.glow-b{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.08) 0%,transparent 65%);bottom:-60px;left:-60px;pointer-events:none;animation:gp 9s ease-in-out infinite reverse}
+.hero{position:relative;z-index:1;padding:96px 40px 60px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.hb{display:inline-flex;align-items:center;gap:8px;background:var(--ol);border:1px solid rgba(224,123,0,.3);border-radius:100px;padding:6px 16px;margin-bottom:24px;font-size:12px;color:var(--o);font-weight:500}
+.hero h1{font-size:clamp(44px,6vw,80px);font-weight:800;line-height:1.0;letter-spacing:-.03em;max-width:760px}
+.hero h1 .ac{color:var(--o)}
+.htg{font-size:clamp(16px,2vw,22px);font-weight:700;color:var(--o);margin:12px 0 20px}
+.hdc{font-size:16px;color:var(--mu);line-height:1.7;max-width:480px;margin-bottom:32px}
+.hbt{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.htr{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu);font-weight:500}
+.ts{width:4px;height:4px;border-radius:50%;background:var(--bd)}
+.hm{width:100%;max-width:680px;margin:40px auto 0;background:rgba(26,25,24,.85);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:26px 30px;text-align:left;position:relative;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.25);animation:fl 6s 1s ease-in-out infinite}
+.hm::before{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.22) 0%,transparent 65%);top:-100px;right:-40px;pointer-events:none}
+.mb{display:flex;align-items:center;gap:6px;margin-bottom:18px}
+.md{width:10px;height:10px;border-radius:50%}
+.mlab{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:.1em;text-transform:uppercase;margin-left:auto}
+.me{font-size:34px;margin-bottom:8px;display:block}
+.mtt{font-size:24px;font-weight:800;color:#fff;margin-bottom:4px}
+.mtt span{color:var(--o)}
+.ms{font-size:12px;color:rgba(255,255,255,.3);margin-bottom:18px}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:10px 12px;transition:background .2s}
+.mc:hover{background:rgba(255,255,255,.1)}
+.mn{font-size:10px;color:var(--o);font-weight:700;margin-bottom:3px;letter-spacing:.05em}
+.mk{font-size:11px;color:rgba(255,255,255,.6);font-weight:500}
+.strip{background:var(--dk);height:48px;overflow:hidden;display:flex;align-items:center}
+.str{display:flex;align-items:center;gap:32px;animation:sx 18s linear infinite;white-space:nowrap;padding:0 16px}
+.strip:hover .str{animation-play-state:paused}
+.si{font-size:13px;color:rgba(255,255,255,.32);font-weight:500}
+.si b{color:rgba(255,255,255,.65);font-weight:600}
+.sp{color:rgba(255,255,255,.12)}
+section{padding:88px 40px}
+.inn{max-width:1060px;margin:0 auto}
+.sl{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--o);margin-bottom:12px;display:block}
+.st{font-size:clamp(26px,3.6vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.06;max-width:540px;margin-bottom:16px}
+.sd{font-size:15px;color:var(--mu);line-height:1.8;max-width:420px}
+.rv{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rl{opacity:0;transform:translateX(-36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rr{opacity:0;transform:translateX(36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.on,.rl.on,.rr.on{opacity:1;transform:none}
+.sg>*{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1)}
+.sg.on>*:nth-child(1){opacity:1;transform:none;transition-delay:0s}
+.sg.on>*:nth-child(2){opacity:1;transform:none;transition-delay:.08s}
+.sg.on>*:nth-child(3){opacity:1;transform:none;transition-delay:.16s}
+.sg.on>*:nth-child(4){opacity:1;transform:none;transition-delay:.24s}
+.sg.on>*:nth-child(5){opacity:1;transform:none;transition-delay:.32s}
+.prob{background:var(--wm)}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.pp{margin-top:20px;display:flex;flex-direction:column;gap:7px}
+.pa{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border-radius:9px;background:#FFF5F0;border:1px solid #FFE0D0;font-size:13px;color:#7A2A0A;font-weight:500;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.pa:hover{transform:translateX(5px)}
+.px{color:#D4451A;font-weight:700;font-size:14px;flex-shrink:0}
+.vb{background:var(--dk);border-radius:12px;padding:18px 22px;margin-top:18px;border-left:3px solid var(--o)}
+.vb p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.7}
+.vb strong{color:var(--o)}
+.pr{background:var(--ol);border:1px solid rgba(224,123,0,.2);border-radius:16px;padding:24px;position:relative;overflow:hidden}
+.pr::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.14) 0%,transparent 70%);bottom:-50px;right:-40px;pointer-events:none}
+.cb2{background:var(--dk);border-radius:10px;padding:16px;font-family:monospace;font-size:11px;line-height:1.9;margin-bottom:10px}
+.cl{display:flex;align-items:center;gap:8px}
+.ce{color:#FF6B6B}.cw{color:#FFB347}.cc{color:rgba(255,255,255,.18)}
+.cbg{display:inline-block;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;margin-right:3px}
+.cbe{background:rgba(255,107,107,.15);color:#FF6B6B}.cbw{background:rgba(255,179,71,.15);color:#FFB347}
+.sr3{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sc{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:12px;text-align:center}
+.sn{font-size:26px;font-weight:800;color:var(--o)}
+.sk{font-size:11px;color:var(--mu);margin-top:3px;line-height:1.4}
+.sol{background:#fff}
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.nm{background:#fff;border:1px solid var(--bd);border-radius:14px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.07)}
+.nbar{background:#F7F6F3;border-bottom:1px solid var(--bd);padding:10px 13px;display:flex;align-items:center;gap:6px}
+.nd{display:flex;gap:5px}
+.ndot{width:9px;height:9px;border-radius:50%}
+.nt{font-size:11px;color:var(--mu);margin-left:6px;font-weight:500}
+.nbd{padding:16px}
+.npt{font-size:13px;font-weight:800;margin-bottom:10px}
+.kb{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.kc{background:#F7F6F3;border-radius:6px;padding:8px}
+.kct{font-size:9px;font-weight:700;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.kk{background:#fff;border:1px solid var(--bd);border-radius:5px;padding:6px 8px;margin-bottom:4px;font-size:10px;color:var(--tx);font-weight:500;border-left:3px solid;transition:transform .2s}
+.kk:hover{transform:translateX(2px)}
+.kd{border-left-color:#bbb}.ko{border-left-color:#3B82F6}.kl{border-left-color:var(--g)}
+.tsr{margin-top:20px;padding:14px 18px;background:var(--wm);border:1px dashed rgba(224,123,0,.4);border-radius:10px;display:flex;align-items:flex-start;gap:11px}
+.ti2{font-size:20px;flex-shrink:0}
+.tlbl{font-size:10px;font-weight:700;color:var(--o);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.ttxt{font-size:12px;color:var(--mu);line-height:1.5}
+.ttxt strong{color:var(--tx);font-weight:600}
+.inc{background:var(--oll)}
+.ih{text-align:center;margin-bottom:44px}
+.ih .st{margin:0 auto 12px;text-align:center}
+.ih .sd{margin:0 auto;text-align:center}
+.cg{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.ca{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:24px 26px;transition:transform .3s,box-shadow .3s,border-color .3s;position:relative;overflow:hidden}
+.ca::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--o),transparent);opacity:0;transition:opacity .3s}
+.ca:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.08);border-color:rgba(224,123,0,.25)}
+.ca:hover::after{opacity:1}
+.ci{font-size:26px;margin-bottom:12px}
+.ct{font-size:16px;font-weight:700;margin-bottom:6px}
+.cd{font-size:13px;color:var(--mu);line-height:1.7}
+.ctg{display:inline-block;margin-top:10px;font-size:10px;font-weight:600;color:var(--o);background:var(--ol);border-radius:100px;padding:2px 9px}
+.pq{background:#fff}
+.pqg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pqc{background:var(--oll);border:1px solid rgba(224,123,0,.15);border-radius:16px;padding:28px}
+.pqt{font-size:16px;font-weight:800;margin-bottom:18px}
+.pqi{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);font-size:13px;line-height:1.5}
+.pqi:last-child{border-bottom:none}
+.pqy{color:var(--g);font-weight:700;font-size:13px;flex-shrink:0}
+.pqn{color:var(--mu);font-weight:600;font-size:13px;flex-shrink:0}
+.pv{background:var(--dk);text-align:center;position:relative;overflow:hidden}
+.pv::before{content:'';position:absolute;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.09) 0%,transparent 65%);top:-220px;left:50%;transform:translateX(-50%);pointer-events:none}
+.pv .inn{position:relative}
+.pv .sl{color:rgba(255,255,255,.28)}
+.pv .st{color:#fff;margin:0 auto 12px;text-align:center;max-width:500px}
+.pv .sd{color:rgba(255,255,255,.42);margin:0 auto 44px;text-align:center}
+.mts{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:560px;margin:0 auto}
+.mt2{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:32px 16px;text-align:center;transition:background .2s,transform .3s}
+.mt2:hover{background:rgba(255,255,255,.08);transform:translateY(-4px)}
+.mt2:first-child{border-radius:12px 0 0 12px}
+.mt2:last-child{border-radius:0 12px 12px 0}
+.mn2{font-size:48px;font-weight:800;color:var(--o);line-height:1}
+.ml2{font-size:12px;color:rgba(255,255,255,.32);margin-top:8px;line-height:1.5}
+.fq{background:var(--wm)}
+.fqh{text-align:center;margin-bottom:44px}
+.fql{max-width:640px;margin:0 auto}
+.fqi{border-bottom:1px solid var(--bd);padding:16px 0;cursor:pointer}
+.fqi:first-child{border-top:1px solid var(--bd)}
+.fqq{font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:center;color:var(--tx);gap:12px}
+.fqic{color:var(--o);font-size:20px;font-weight:300;transition:transform .3s;flex-shrink:0;line-height:1}
+.fqa{font-size:13px;color:var(--mu);line-height:1.8;max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1),opacity .4s,margin .4s;opacity:0}
+.fqi.open .fqic{transform:rotate(45deg)}
+.fqi.open .fqa{max-height:160px;opacity:1;margin-top:10px}
+.cta{background:var(--dk);text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.12) 0%,transparent 65%);top:-160px;left:50%;transform:translateX(-50%);pointer-events:none}
+.cta .inn{position:relative}
+.cta-e{font-size:64px;margin-bottom:20px;display:block;animation:ef 3s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(224,123,0,.5))}
+.cta-t{font-size:clamp(36px,5vw,68px);font-weight:800;letter-spacing:-.03em;color:#fff;margin-bottom:12px}
+.cta-s{font-size:16px;color:rgba(255,255,255,.48);margin-bottom:32px}
+.cta-p{font-size:48px;font-weight:800;color:var(--o);margin-bottom:6px}
+.cta-ps{font-size:13px;color:rgba(255,255,255,.3);margin-bottom:24px}
+.cta-tr{margin-top:20px;font-size:12px;color:rgba(255,255,255,.3);display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.cta-ti{display:flex;align-items:center;gap:4px}
+footer{background:#0D0C0C;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.flo{font-weight:800;font-size:14px;color:var(--o)}
+.fce,.fri{font-size:11px;color:rgba(255,255,255,.2)}
+@media(max-width:768px){
+  nav{padding:0 20px}.nv{display:none}
+  section{padding:60px 20px}.hero{padding:80px 20px 48px}
+  .pg,.sg2,.pqg{grid-template-columns:1fr;gap:36px}
+  .cg{grid-template-columns:1fr}
+  .mts{grid-template-columns:1fr;gap:8px}.mt2{border-radius:12px !important}
+  .hm{display:none}
+  footer{flex-direction:column;text-align:center}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">🥭 Manga</a>
-  <ul class="nav-links">
-    <li><a href="#problema">O problema</a></li>
-    <li><a href="#inclui">O que inclui</a></li>
-    <li><a href="#faq">FAQ</a></li>
-  </ul>
-  <a href="#cta" class="nav-cta">Quero o Manga Essencial — R$ 67</a>
+<nav id="nav">
+  <a href="#" class="nl">🥭 Manga</a>
+  <ul class="nv"><li><a href="#prob">O problema</a></li><li><a href="#inc">O que inclui</a></li><li><a href="#faq">FAQ</a></li></ul>
+  <a href="#cta" class="nc">Quero o Manga Essencial — R$ 67</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="inicio">
-  <div class="glow-1"></div>
-  <div class="glow-2"></div>
-  <div class="hero-badge"><span class="stars">★★★★★</span><span>Construído com a metodologia que ensina</span></div>
-  <h1>Seu produto com IA<br>vai <span class="accent">quebrar.</span></h1>
-  <p class="hero-tagline">Chupa essa manga. 🥭</p>
-  <p class="hero-desc">Não porque a ideia é ruim — mas porque você não tem estrutura.<br>Pare de refazer o que já fez.</p>
-  <div class="hero-btns">
-    <a href="#cta" class="btn-p">Quero o Manga Essencial — R$ 67 →</a>
-    <a href="#inclui" class="btn-s">Ver o que inclui</a>
-  </div>
-  <div class="hero-trust">
-    <div class="ti">⏱ Acesso imediato</div><div class="ts"></div>
-    <div class="ti">📋 PDF + Workspace Notion</div><div class="ts"></div>
-    <div class="ti">♾ Sem assinatura</div>
-  </div>
-  <div class="hero-mockup">
-    <div class="mock-bar">
-      <div class="mock-dot" style="background:#FF5F57"></div>
-      <div class="mock-dot" style="background:#FEBC2E"></div>
-      <div class="mock-dot" style="background:#28C840"></div>
-      <span class="mock-lbl">Manga Essencial · PDF</span>
+<div class="hero-wrap">
+  <div class="glow-a"></div>
+  <div class="glow-b"></div>
+  <div class="hero">
+    <div class="hb">★★★★★ &nbsp;Construído com a metodologia que ensina</div>
+    <h1>Seu produto com IA<br>vai <span class="ac">quebrar.</span></h1>
+    <p class="htg">Chupa essa manga. 🥭</p>
+    <p class="hdc">Não porque a ideia é ruim — mas porque você não tem estrutura.<br>Pare de refazer o que já fez.</p>
+    <div class="hbt">
+      <a href="#cta" class="bp">Quero o Manga Essencial — R$ 67 →</a>
+      <a href="#inc" class="bs">Ver o que inclui</a>
     </div>
-    <span class="mock-emoji">🥭</span>
-    <div class="mock-title">Manga <span>Essencial</span></div>
-    <div class="mock-sub">Construa com IA sem quebrar depois.</div>
-    <div class="mock-grid">
-      <div class="mock-card"><div class="mock-num">01</div><div class="mock-name">Template de Spec SDD</div></div>
-      <div class="mock-card"><div class="mock-num">02</div><div class="mock-name">Checklist Anti-Dívida</div></div>
-      <div class="mock-card"><div class="mock-num">03</div><div class="mock-name">10 Prompts para IA</div></div>
-      <div class="mock-card"><div class="mock-num">04</div><div class="mock-name">Workspace Notion + Kanban</div></div>
+    <div class="htr">
+      <div class="ti">⏱ Acesso imediato</div><div class="ts"></div>
+      <div class="ti">📋 PDF + Workspace Notion</div><div class="ts"></div>
+      <div class="ti">♾ Sem assinatura</div>
     </div>
-  </div>
-</section>
-
-<!-- STRIP SCROLLANDO -->
-<div class="strip">
-  <div class="strip-track">
-    <span class="si">Funciona com <b>Claude</b></span><span class="sep">·</span>
-    <span class="si"><b>ChatGPT</b></span><span class="sep">·</span>
-    <span class="si"><b>Cursor</b></span><span class="sep">·</span>
-    <span class="si"><b>Notion</b></span><span class="sep">·</span>
-    <span class="si"><b>GitHub Copilot</b></span><span class="sep">·</span>
-    <span class="si">Use com qualquer IA que você já usa.</span><span class="sep" style="margin:0 20px">·</span>
-    <span class="si">Funciona com <b>Claude</b></span><span class="sep">·</span>
-    <span class="si"><b>ChatGPT</b></span><span class="sep">·</span>
-    <span class="si"><b>Cursor</b></span><span class="sep">·</span>
-    <span class="si"><b>Notion</b></span><span class="sep">·</span>
-    <span class="si"><b>GitHub Copilot</b></span><span class="sep">·</span>
-    <span class="si">Use com qualquer IA que você já usa.</span><span class="sep" style="margin:0 20px">·</span>
+    <div class="hm">
+      <div class="mb">
+        <div class="md" style="background:#FF5F57"></div><div class="md" style="background:#FEBC2E"></div><div class="md" style="background:#28C840"></div>
+        <span class="mlab">Manga Essencial · PDF</span>
+      </div>
+      <span class="me">🥭</span>
+      <div class="mtt">Manga <span>Essencial</span></div>
+      <div class="ms">Construa com IA sem quebrar depois.</div>
+      <div class="mg">
+        <div class="mc"><div class="mn">01</div><div class="mk">Template de Spec SDD</div></div>
+        <div class="mc"><div class="mn">02</div><div class="mk">Checklist Anti-Dívida</div></div>
+        <div class="mc"><div class="mn">03</div><div class="mk">10 Prompts para IA</div></div>
+        <div class="mc"><div class="mn">04</div><div class="mk">Workspace Notion + Kanban</div></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- PROBLEMA -->
-<section class="problema" id="problema">
-  <div class="inner">
-    <div class="prob-grid">
-      <div class="sl">
-        <span class="sec-lbl">O Problema</span>
-        <h2 class="sec-title" style="max-width:100%">IA acelera a construção.<br>Mas também<br>acelera o caos.</h2>
-        <p class="sec-desc">Você usou IA para construir rápido. A feature ficou pronta. Aí chegou o momento de mudar uma coisa — e ela quebrou três outras.</p>
-        <div class="prob-pains sg">
-          <div class="pain"><span class="pain-x">✗</span> Código funciona hoje, quebra amanhã</div>
-          <div class="pain"><span class="pain-x">✗</span> Você não sabe como seu sistema está estruturado</div>
-          <div class="pain"><span class="pain-x">✗</span> Cada nova feature vira um risco</div>
-          <div class="pain"><span class="pain-x">✗</span> Você perde mais tempo corrigindo do que construindo</div>
-          <div class="pain"><span class="pain-x">✗</span> Seu projeto fica impossível de escalar</div>
-        </div>
-        <div class="vibe-box">
-          <p>Isso tem nome: <strong>vibe coding</strong> — pedir código para a IA sem especificar o que, como e por quê. E está destruindo projetos todos os dias.</p>
-        </div>
+<div class="strip">
+  <div class="str">
+    <span class="si">Funciona com <b>Claude</b></span><span class="sp">·</span><span class="si"><b>ChatGPT</b></span><span class="sp">·</span><span class="si"><b>Cursor</b></span><span class="sp">·</span><span class="si"><b>Notion</b></span><span class="sp">·</span><span class="si"><b>GitHub Copilot</b></span><span class="sp">·</span><span class="si">Use com qualquer IA que você já usa.</span><span class="sp" style="margin:0 14px">·</span>
+    <span class="si">Funciona com <b>Claude</b></span><span class="sp">·</span><span class="si"><b>ChatGPT</b></span><span class="sp">·</span><span class="si"><b>Cursor</b></span><span class="sp">·</span><span class="si"><b>Notion</b></span><span class="sp">·</span><span class="si"><b>GitHub Copilot</b></span><span class="sp">·</span><span class="si">Use com qualquer IA que você já usa.</span><span class="sp" style="margin:0 14px">·</span>
+  </div>
+</div>
+
+<section class="prob" id="prob"><div class="inn"><div class="pg">
+  <div class="rl">
+    <span class="sl">O Problema</span>
+    <h2 class="st" style="max-width:100%">IA acelera a construção.<br>Mas também acelera o caos.</h2>
+    <p class="sd">Você usou IA para construir rápido. Aí chegou o momento de mudar uma coisa — e ela quebrou três outras.</p>
+    <div class="pp sg">
+      <div class="pa"><span class="px">✗</span> Código funciona hoje, quebra amanhã</div>
+      <div class="pa"><span class="px">✗</span> Você não sabe como seu sistema está estruturado</div>
+      <div class="pa"><span class="px">✗</span> Cada nova feature vira um risco</div>
+      <div class="pa"><span class="px">✗</span> Você perde mais tempo corrigindo do que construindo</div>
+      <div class="pa"><span class="px">✗</span> Seu projeto fica impossível de escalar</div>
+    </div>
+    <div class="vb"><p>Isso tem nome: <strong>vibe coding</strong> — pedir código sem especificar o que, como e por quê. Está destruindo projetos todos os dias.</p></div>
+  </div>
+  <div class="rr">
+    <div class="pr">
+      <div class="cb2">
+        <div class="cl"><span class="cbg cbe">ERRO</span><span class="ce">TypeError: Cannot read 'user'</span></div>
+        <div class="cl" style="margin-top:5px"><span class="cbg cbw">WARN</span><span class="cw">Feature quebrou auth flow</span></div>
+        <div class="cl" style="margin-top:5px"><span class="cbg cbe">ERRO</span><span class="ce">Undefined is not a function</span></div>
+        <div class="cl" style="margin-top:5px"><span class="cbg cbw">WARN</span><span class="cw">3 testes falhando</span></div>
+        <div class="cl" style="margin-top:5px"><span class="cc">// TODO: entender o que aconteceu</span></div>
+        <div class="cl"><span class="cc">// TODO: refazer do zero?</span></div>
       </div>
-      <div class="sr2">
-        <div class="prob-right">
-          <div class="code-block">
-            <div class="cl"><span class="cb cb-e">ERRO</span><span class="ce">TypeError: Cannot read 'user'</span></div>
-            <div class="cl" style="margin-top:6px"><span class="cb cb-w">WARN</span><span class="cw">Feature quebrou auth flow</span></div>
-            <div class="cl" style="margin-top:6px"><span class="cb cb-e">ERRO</span><span class="ce">Undefined is not a function</span></div>
-            <div class="cl" style="margin-top:6px"><span class="cb cb-w">WARN</span><span class="cw">3 testes falhando</span></div>
-            <div class="cl" style="margin-top:6px"><span class="cc">// TODO: entender o que aconteceu</span></div>
-            <div class="cl"><span class="cc">// TODO: refazer do zero?</span></div>
-          </div>
-          <div class="stat-row">
-            <div class="stat"><div class="stat-n">70%</div><div class="stat-l">do código gerado com IA tem anti-patterns</div></div>
-            <div class="stat"><div class="stat-n">3×</div><div class="stat-l">mais tempo consertando do que construindo</div></div>
-          </div>
-        </div>
+      <div class="sr3">
+        <div class="sc"><div class="sn">70%</div><div class="sk">do código gerado com IA tem anti-patterns</div></div>
+        <div class="sc"><div class="sn">3×</div><div class="sk">mais tempo consertando do que construindo</div></div>
       </div>
     </div>
   </div>
-</section>
+</div></div></section>
 
-<!-- SOLUÇÃO -->
-<section class="solucao" id="solucao">
-  <div class="inner">
-    <div class="sol-grid">
-      <div class="sl">
-        <div class="notion-mock">
-          <div class="notion-bar">
-            <div class="notion-dots">
-              <div class="notion-dot" style="background:#FF5F57"></div>
-              <div class="notion-dot" style="background:#FEBC2E"></div>
-              <div class="notion-dot" style="background:#28C840"></div>
-            </div>
-            <span class="notion-bar-t">🥭 Manga Essencial — Workspace</span>
-          </div>
-          <div class="notion-body">
-            <div class="notion-pg-t">06 — Board de Projetos</div>
-            <div class="kanban">
-              <div class="kb-col"><div class="kb-col-t">Spec Draft</div><div class="kb-card kb-d">Integração Stripe</div><div class="kb-card kb-d">Notificações</div></div>
-              <div class="kb-col"><div class="kb-col-t">Spec Aprovada</div><div class="kb-card kb-o">Dashboard</div><div class="kb-card kb-o">Cadastro</div></div>
-              <div class="kb-col"><div class="kb-col-t">Publicado</div><div class="kb-card kb-l">Magic Link ✓</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="sr2">
-        <span class="sec-lbl">A Solução</span>
-        <h2 class="sec-title">Manga Essencial — pare de construir no escuro.</h2>
-        <p class="sec-desc">Um sistema simples para organizar qualquer feature antes de pedir código para a IA. Templates, checklist, prompts e um workspace Notion com Kanban prontos para usar hoje.</p>
-        <a href="#cta" class="btn-p" style="margin-top:32px;display:inline-flex">Quero o Manga Essencial — R$ 67 →</a>
-        <div class="teaser">
-          <div class="teaser-ico">🥭</div>
-          <div>
-            <div class="teaser-lbl">Essa manga ainda está no pé</div>
-            <div class="teaser-txt">Tá saindo do verde. <strong>Quem entra agora garante acesso antecipado</strong> ao que vem a seguir — antes de todo mundo.</div>
-          </div>
+<section class="sol"><div class="inn"><div class="sg2">
+  <div class="rl">
+    <div class="nm">
+      <div class="nbar"><div class="nd"><div class="ndot" style="background:#FF5F57"></div><div class="ndot" style="background:#FEBC2E"></div><div class="ndot" style="background:#28C840"></div></div><span class="nt">🥭 Manga Essencial — Workspace</span></div>
+      <div class="nbd">
+        <div class="npt">06 — Board de Projetos</div>
+        <div class="kb">
+          <div class="kc"><div class="kct">Spec Draft</div><div class="kk kd">Integração Stripe</div><div class="kk kd">Notificações</div></div>
+          <div class="kc"><div class="kct">Spec Aprovada</div><div class="kk ko">Dashboard</div><div class="kk ko">Cadastro</div></div>
+          <div class="kc"><div class="kct">Publicado</div><div class="kk kl">Magic Link ✓</div></div>
         </div>
       </div>
     </div>
   </div>
-</section>
-
-<!-- O QUE INCLUI -->
-<section class="inclui" id="inclui">
-  <div class="inner">
-    <div class="inclui-hd sr">
-      <span class="sec-lbl">O que você recebe</span>
-      <h2 class="sec-title">Tudo para parar de<br>construir no escuro</h2>
-      <p class="sec-desc">PDF + Workspace Notion. Acesso imediato. Sem assinatura.</p>
-    </div>
-    <div class="cards sg">
-      <div class="card"><div class="card-ico">📝</div><div class="card-t">Template de Spec SDD</div><p class="card-d">Organize qualquer feature antes de pedir código. Inclui cenários Gherkin, critérios de aceite e campo "fora do escopo".</p><span class="card-tag">PDF + Notion</span></div>
-      <div class="card"><div class="card-ico">✅</div><div class="card-t">Checklist Anti-Dívida Técnica</div><p class="card-d">20 pontos divididos em antes, durante e depois. Checkboxes interativos no Notion. Sinais de alerta incluídos.</p><span class="card-tag">PDF + Notion</span></div>
-      <div class="card"><div class="card-ico">🤖</div><div class="card-t">10 Prompts para IA</div><p class="card-d">Prontos para copiar e usar no Claude, ChatGPT ou Cursor. Do rascunho de spec até o diagnóstico de dívida técnica.</p><span class="card-tag">PDF + Notion</span></div>
-      <div class="card"><div class="card-ico">📋</div><div class="card-t">Workspace Notion + Kanban</div><p class="card-d">Duplique com 1 clique. Board de features com 6 colunas, exemplo real preenchido e área de projetos.</p><span class="card-tag">Notion exclusivo</span></div>
-    </div>
+  <div class="rr">
+    <span class="sl">A Solução</span>
+    <h2 class="st">Manga Essencial — pare de construir no escuro.</h2>
+    <p class="sd">Templates, checklist, prompts e workspace Notion com Kanban. Prontos para usar hoje.</p>
+    <a href="#cta" class="bp" style="margin-top:24px;display:inline-flex">Quero o Manga Essencial — R$ 67 →</a>
+    <div class="tsr"><div class="ti2">🥭</div><div><div class="tlbl">Essa manga ainda está no pé</div><div class="ttxt">Tá saindo do verde. <strong>Quem entra agora garante acesso antecipado</strong> ao que vem a seguir — antes de todo mundo.</div></div></div>
   </div>
-</section>
+</div></div></section>
 
-<!-- PARA QUEM -->
-<section class="paraquem">
-  <div class="inner">
-    <div class="sr" style="text-align:center;margin-bottom:48px">
-      <span class="sec-lbl" style="display:block;text-align:center;margin-bottom:12px">Para quem é</span>
-      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em">Isso é para você?</h2>
-    </div>
-    <div class="pq-grid sg">
-      <div class="pq-card">
-        <div class="pq-t">✓ Isso é pra você se:</div>
-        <div class="pq-item"><span class="pq-y">✓</span> Está criando um produto com IA</div>
-        <div class="pq-item"><span class="pq-y">✓</span> Não é dev experiente</div>
-        <div class="pq-item"><span class="pq-y">✓</span> Quer lançar rápido, mas sem se sabotar</div>
-        <div class="pq-item"><span class="pq-y">✓</span> Já sentiu que seu projeto está virando bagunça</div>
-        <div class="pq-item"><span class="pq-y">✓</span> Já pediu código para a IA e ela quebrou algo</div>
-      </div>
-      <div class="pq-card" style="background:var(--white);border-color:var(--border)">
-        <div class="pq-t" style="color:var(--muted)">— Pode pular se:</div>
-        <div class="pq-item"><span class="pq-n">—</span> Você já segue processos avançados de engenharia</div>
-        <div class="pq-item"><span class="pq-n">—</span> Trabalha em times com rituais definidos</div>
-        <div class="pq-item"><span class="pq-n">—</span> Não usa IA para desenvolver</div>
-        <div class="pq-item"><span class="pq-n">—</span> Nunca precisou refazer uma feature que funcionava</div>
-      </div>
-    </div>
+<section class="inc" id="inc"><div class="inn">
+  <div class="ih rv"><span class="sl">O que você recebe</span><h2 class="st">Tudo para parar de<br>construir no escuro</h2><p class="sd">PDF + Workspace Notion. Acesso imediato. Sem assinatura.</p></div>
+  <div class="cg sg">
+    <div class="ca"><div class="ci">📝</div><div class="ct">Template de Spec SDD</div><p class="cd">Organize qualquer feature antes de pedir código. Gherkin, critérios de aceite e fora do escopo.</p><span class="ctg">PDF + Notion</span></div>
+    <div class="ca"><div class="ci">✅</div><div class="ct">Checklist Anti-Dívida</div><p class="cd">20 pontos em antes, durante e depois. Checkboxes interativos no Notion.</p><span class="ctg">PDF + Notion</span></div>
+    <div class="ca"><div class="ci">🤖</div><div class="ct">10 Prompts para IA</div><p class="cd">Prontos para copiar no Claude, ChatGPT ou Cursor. Do rascunho de spec ao diagnóstico de dívida técnica.</p><span class="ctg">PDF + Notion</span></div>
+    <div class="ca"><div class="ci">📋</div><div class="ct">Workspace Notion + Kanban</div><p class="cd">Duplique com 1 clique. Board com 6 colunas e exemplo real preenchido.</p><span class="ctg">Notion exclusivo</span></div>
   </div>
-</section>
+</div></section>
 
-<!-- PROVA -->
-<section class="prova">
-  <div class="inner">
-    <span class="sec-lbl" style="display:block;text-align:center;margin-bottom:14px">Por que acreditar</span>
-    <h2 class="sec-title">Construído com a<br>metodologia que ensina</h2>
-    <p class="sec-desc">Cada módulo, prompt e template foram testados na prática antes de chegar aqui.</p>
-    <div class="metrics sg">
-      <div class="metric"><div class="metric-n" data-target="4">4</div><div class="metric-l">módulos prontos<br>para usar</div></div>
-      <div class="metric"><div class="metric-n" data-target="10">10</div><div class="metric-l">prompts<br>estruturados</div></div>
-      <div class="metric"><div class="metric-n" data-target="0">0</div><div class="metric-l">vibe<br>coding</div></div>
-    </div>
+<section class="pq"><div class="inn">
+  <div class="rv" style="text-align:center;margin-bottom:40px"><span class="sl" style="display:block;text-align:center;margin-bottom:10px">Para quem é</span><h2 style="font-size:clamp(24px,3.6vw,40px);font-weight:800;letter-spacing:-.03em">Isso é para você?</h2></div>
+  <div class="pqg sg">
+    <div class="pqc"><div class="pqt">✓ Isso é pra você se:</div><div class="pqi"><span class="pqy">✓</span> Está criando um produto com IA</div><div class="pqi"><span class="pqy">✓</span> Não é dev experiente</div><div class="pqi"><span class="pqy">✓</span> Quer lançar rápido, sem se sabotar</div><div class="pqi"><span class="pqy">✓</span> Já sentiu que seu projeto está virando bagunça</div><div class="pqi"><span class="pqy">✓</span> Já pediu código para IA e ela quebrou algo</div></div>
+    <div class="pqc" style="background:#fff;border-color:var(--bd)"><div class="pqt" style="color:var(--mu)">— Pode pular se:</div><div class="pqi"><span class="pqn">—</span> Já segue processos avançados de engenharia</div><div class="pqi"><span class="pqn">—</span> Trabalha em times com rituais definidos</div><div class="pqi"><span class="pqn">—</span> Não usa IA para desenvolver</div><div class="pqi"><span class="pqn">—</span> Nunca precisou refazer uma feature que funcionava</div></div>
   </div>
-</section>
+</div></section>
 
-<!-- FAQ -->
-<section class="faq-sec" id="faq">
-  <div class="inner">
-    <div class="faq-hd sr">
-      <span class="sec-lbl" style="display:block;text-align:center;margin-bottom:12px">Dúvidas</span>
-      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em;text-align:center">Perguntas frequentes</h2>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item"><div class="faq-q">O que exatamente eu recebo? <span class="faq-ico">+</span></div><div class="faq-a">PDF de 7 páginas com todos os módulos + Workspace Notion duplicável com template de spec, checklist interativo, 10 prompts completos, exemplo real preenchido e Kanban de features. Acesso imediato após o pagamento.</div></div>
-      <div class="faq-item"><div class="faq-q">Precisa saber programar? <span class="faq-ico">+</span></div><div class="faq-a">Não. Feito para quem usa IA para criar produtos — dev, designer, founder ou qualquer pessoa que já pediu código para uma IA e se perdeu no caminho.</div></div>
-      <div class="faq-item"><div class="faq-q">Para qual IA funciona? <span class="faq-ico">+</span></div><div class="faq-a">Qualquer uma. Claude, ChatGPT, Cursor, GitHub Copilot. Os prompts funcionam em todas as ferramentas de IA que aceitam texto.</div></div>
-      <div class="faq-item"><div class="faq-q">E se eu não gostar? <span class="faq-ico">+</span></div><div class="faq-a">Duvido. Mas se acontecer, é simples: você sabe exatamente o que está levando antes de pagar — o que está aqui é o produto, sem enrolação. Nada de bônus inflados para parecer mais do que é.</div></div>
-      <div class="faq-item"><div class="faq-q">Por que R$ 67 e não mais caro? <span class="faq-ico">+</span></div><div class="faq-a">Porque o objetivo é que você compre, use e veja resultado. Depois disso, o próximo passo do Manga vai fazer ainda mais sentido.</div></div>
-    </div>
+<section class="pv"><div class="inn">
+  <span class="sl" style="display:block;text-align:center;margin-bottom:12px">Por que acreditar</span>
+  <h2 class="st">Construído com a<br>metodologia que ensina</h2>
+  <p class="sd">Cada módulo, prompt e template foi testado na prática antes de chegar aqui.</p>
+  <div class="mts sg">
+    <div class="mt2"><div class="mn2" data-n="4">4</div><div class="ml2">módulos prontos<br>para usar</div></div>
+    <div class="mt2"><div class="mn2" data-n="10">10</div><div class="ml2">prompts<br>estruturados</div></div>
+    <div class="mt2"><div class="mn2" data-n="0">0</div><div class="ml2">vibe<br>coding</div></div>
   </div>
-</section>
+</div></section>
 
-<!-- CTA -->
-<section class="cta-sec" id="cta">
-  <div class="inner">
-    <span class="cta-emoji">🥭</span>
-    <h2 class="cta-title">Chupa essa manga.</h2>
-    <p class="cta-sub">Pare de refazer o que já fez. Comece estruturado agora.</p>
-    <div class="cta-price">R$ 67</div>
-    <p class="cta-price-sub">Pagamento único · Sem assinatura</p>
-    <a href="#" class="btn-p" style="font-size:17px;padding:18px 40px">Quero o Manga Essencial →</a>
-    <div class="cta-trust">
-      <div class="cta-ti">⏱ Acesso imediato</div>
-      <div class="cta-ti">📋 PDF + Workspace Notion</div>
-      <div class="cta-ti">♾ Acesso vitalício</div>
-      <div class="cta-ti">🔒 Pagamento seguro</div>
-    </div>
+<section class="fq" id="faq"><div class="inn">
+  <div class="fqh rv"><span class="sl" style="display:block;text-align:center;margin-bottom:10px">Dúvidas</span><h2 style="font-size:clamp(24px,3.6vw,40px);font-weight:800;letter-spacing:-.03em;text-align:center">Perguntas frequentes</h2></div>
+  <div class="fql">
+    <div class="fqi"><div class="fqq">O que exatamente eu recebo? <span class="fqic">+</span></div><div class="fqa">PDF de 7 páginas + Workspace Notion com template de spec, checklist interativo, 10 prompts, exemplo preenchido e Kanban. Acesso imediato.</div></div>
+    <div class="fqi"><div class="fqq">Precisa saber programar? <span class="fqic">+</span></div><div class="fqa">Não. Feito para quem usa IA para criar produtos — dev, designer, founder ou qualquer pessoa que já pediu código para uma IA e se perdeu.</div></div>
+    <div class="fqi"><div class="fqq">Para qual IA funciona? <span class="fqic">+</span></div><div class="fqa">Qualquer uma. Claude, ChatGPT, Cursor, GitHub Copilot. Os prompts funcionam em todas as ferramentas que aceitam texto.</div></div>
+    <div class="fqi"><div class="fqq">E se eu não gostar? <span class="fqic">+</span></div><div class="fqa">Duvido. Mas se acontecer: você sabe exatamente o que está levando antes de pagar. Sem bônus inflados para parecer mais do que é.</div></div>
+    <div class="fqi"><div class="fqq">Por que R$ 67 e não mais caro? <span class="fqic">+</span></div><div class="fqa">Porque o objetivo é que você compre, use e veja resultado. Depois disso, o próximo passo do Manga vai fazer ainda mais sentido.</div></div>
   </div>
-</section>
+</div></section>
 
-<!-- FOOTER -->
+<section class="cta" id="cta"><div class="inn">
+  <span class="cta-e">🥭</span>
+  <h2 class="cta-t">Chupa essa manga.</h2>
+  <p class="cta-s">Pare de refazer o que já fez. Comece estruturado agora.</p>
+  <div class="cta-p">R$ 67</div>
+  <p class="cta-ps">Pagamento único · Sem assinatura</p>
+  <a href="#" class="bp" style="font-size:16px;padding:14px 32px">Quero o Manga Essencial →</a>
+  <div class="cta-tr"><div class="cta-ti">⏱ Acesso imediato</div><div class="cta-ti">📋 PDF + Notion</div><div class="cta-ti">♾ Acesso vitalício</div><div class="cta-ti">🔒 Pagamento seguro</div></div>
+</div></section>
+
 <footer>
-  <div class="foot-logo">🥭 Manga · Um produto Cacho</div>
-  <div class="foot-c">© 2026 Cacho</div>
-  <div class="foot-r">Início · FAQ · Notion</div>
+  <div class="flo">🥭 Manga · Um produto Cacho</div>
+  <div class="fce">© 2026 Cacho</div>
+  <div class="fri">Início · FAQ · Notion</div>
 </footer>
 
 <script>
-// Nav scroll effect
-window.addEventListener('scroll', function() {
-  var nav = document.querySelector('nav');
-  if (window.scrollY > 20) { nav.classList.add('scrolled'); }
-  else { nav.classList.remove('scrolled'); }
-});
-
-// Scroll reveal — simples e robusto
-var els = document.querySelectorAll('.sr,.sl,.sr2,.sg');
-var obs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
-}, { threshold: 0.1 });
-els.forEach(function(el) { obs.observe(el); });
-
-// FAQ
-document.querySelectorAll('.faq-item').forEach(function(item) {
-  item.querySelector('.faq-q').addEventListener('click', function() {
-    var open = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
-    if (!open) item.classList.add('open');
-  });
-});
-
-// Mouse parallax nos glows
-document.addEventListener('mousemove', function(e) {
-  var x = (e.clientX / window.innerWidth - 0.5) * 20;
-  var y = (e.clientY / window.innerHeight - 0.5) * 20;
-  var g1 = document.querySelector('.glow-1');
-  var g2 = document.querySelector('.glow-2');
-  if (g1) g1.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-  if (g2) g2.style.transform = 'translate(' + (-x*.5) + 'px,' + (-y*.5) + 'px)';
-});
-
-// Counter nos números da prova
-var cobs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (!e.isIntersecting || e.target.dataset.done) return;
-    e.target.dataset.done = 1;
-    var target = parseInt(e.target.dataset.target);
-    if (!target) return;
-    var cur = 0, step = Math.ceil(target / 25);
-    var t = setInterval(function() {
-      cur = Math.min(cur + step, target);
-      e.target.textContent = cur;
-      if (cur >= target) clearInterval(t);
-    }, 50);
-  });
-}, { threshold: 0.5 });
-document.querySelectorAll('.metric-n[data-target]').forEach(function(el) { cobs.observe(el); });
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('solid',window.scrollY>30);});
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('on');obs.unobserve(x.target);}});},{threshold:0.1});
+document.querySelectorAll('.rv,.rl,.rr,.sg').forEach(function(el){obs.observe(el);});
+document.querySelectorAll('.fqi').forEach(function(i){i.querySelector('.fqq').addEventListener('click',function(){var o=i.classList.contains('open');document.querySelectorAll('.fqi').forEach(function(x){x.classList.remove('open');});if(!o)i.classList.add('open');});});
+document.addEventListener('mousemove',function(e){var x=(e.clientX/window.innerWidth-.5)*18,y=(e.clientY/window.innerHeight-.5)*18;var g1=document.querySelector('.glow-a'),g2=document.querySelector('.glow-b');if(g1)g1.style.transform='translate('+x+'px,'+y+'px)';if(g2)g2.style.transform='translate('+(-x*.5)+'px,'+(-y*.5)+'px)';});
+var co=new IntersectionObserver(function(e){e.forEach(function(x){if(!x.isIntersecting||x.target.dataset.done)return;x.target.dataset.done=1;var t=parseInt(x.target.dataset.n);if(!t)return;var c=0,s=Math.ceil(t/25),tm=setInterval(function(){c=Math.min(c+s,t);x.target.textContent=c;if(c>=t)clearInterval(tm);},50);});},{threshold:.5});
+document.querySelectorAll('.mn2[data-n]').forEach(function(el){co.observe(el);});
 </script>
 </body>
 </html>
