@@ -18,14 +18,7 @@ nav.solid{background:rgba(255,253,248,.96);border-bottom-color:var(--bd);backdro
 .nv a:hover{color:var(--tx)}
 .nc{background:var(--o);color:#fff;border:none;border-radius:100px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform .2s,opacity .2s}
 .nc:hover{opacity:.88;transform:translateY(-1px)}
-.bp{
-  position:relative;overflow:hidden;isolation:isolate;
-  color:var(--o);border:2.5px solid var(--o);
-  border-radius:100px;padding:14px 28px;font-size:15px;font-weight:600;
-  cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
-  transition:color .5s ease;background:transparent;
-  font-family:'Onest',sans-serif;
-}
+.bp{position:relative;overflow:hidden;isolation:isolate;color:var(--o);border:2.5px solid var(--o);border-radius:100px;padding:14px 28px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:color .5s ease;background:transparent;font-family:'Onest',sans-serif}
 .bp:hover{color:#fff}
 .bp .lbl{position:relative;z-index:3}
 .bp .ww{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;border-radius:100px}
@@ -39,34 +32,35 @@ nav.solid{background:rgba(255,253,248,.96);border-bottom-color:var(--bd);backdro
 .bs{background:transparent;color:var(--tx);border:1.5px solid var(--bd);border-radius:100px;padding:14px 24px;font-size:15px;font-weight:500;cursor:pointer;text-decoration:none;transition:border-color .2s,color .2s;font-family:'Onest',sans-serif}
 .bs:hover{border-color:var(--o);color:var(--o)}
 @keyframes gp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.1)}}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes sx{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes ef{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes starPop{from{opacity:0;transform:scale(0) rotate(-20deg)}to{opacity:1;transform:scale(1) rotate(0)}}
 @keyframes badgeFade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 @keyframes termLine{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
-@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes sx{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@keyframes ef{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes heroIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 .hero-wrap{position:relative;background:var(--wm);overflow:hidden}
 .glow-a{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.13) 0%,transparent 65%);top:-160px;right:-100px;pointer-events:none;animation:gp 7s ease-in-out infinite}
 .glow-b{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.08) 0%,transparent 65%);bottom:-60px;left:-60px;pointer-events:none;animation:gp 9s ease-in-out infinite reverse}
 .hero{position:relative;z-index:1;padding:96px 40px 60px;display:flex;flex-direction:column;align-items:center;text-align:center}
-.hb{display:inline-flex;align-items:center;gap:8px;background:var(--ol);border:1px solid rgba(224,123,0,0);border-radius:100px;padding:6px 16px;margin-bottom:24px;font-size:12px;color:var(--o);font-weight:500;transition:border-color .3s}
+.hb{display:inline-flex;align-items:center;gap:8px;background:var(--ol);border:1px solid rgba(224,123,0,0);border-radius:100px;padding:6px 16px;margin-bottom:24px;font-size:12px;color:var(--o);font-weight:500;transition:border-color .3s;animation:heroIn .5s .05s ease both}
 .hb.ready{border-color:rgba(224,123,0,.3)}
 .stars-wrap{display:flex;gap:2px}
 .star{opacity:0;display:inline-block;animation:starPop .3s ease forwards}
 .star:nth-child(1){animation-delay:.1s}.star:nth-child(2){animation-delay:.3s}.star:nth-child(3){animation-delay:.5s}.star:nth-child(4){animation-delay:.7s}.star:nth-child(5){animation-delay:.9s}
 .badge-txt{opacity:0;animation:badgeFade .4s 1.2s ease forwards}
-.hero h1{font-size:clamp(44px,6vw,80px);font-weight:800;line-height:1.0;letter-spacing:-.03em;max-width:760px}
+.hero h1{font-size:clamp(44px,6vw,80px);font-weight:800;line-height:1.0;letter-spacing:-.03em;max-width:760px;animation:heroIn .7s .15s ease both}
 .hero h1 .ac{color:var(--o)}
 .htg{font-size:clamp(16px,2vw,22px);font-weight:700;color:var(--o);margin:12px 0 20px;min-height:1.5em}
 .tw-cursor{display:inline-block;color:var(--o);animation:blink .7s step-end infinite;margin-left:1px;font-weight:300}
-.hdc{font-size:16px;color:var(--mu);line-height:1.7;max-width:480px;margin-bottom:32px}
-.hbt{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
-.htr{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap}
+.hdc{font-size:16px;color:var(--mu);line-height:1.7;max-width:480px;margin-bottom:32px;opacity:0}
+.hbt{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:24px;opacity:0}
+.htr{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;opacity:0}
+.hm{width:100%;max-width:680px;margin:40px auto 0;background:rgba(26,25,24,.85);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:26px 30px;text-align:left;position:relative;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.25);opacity:0}
+.hm::before{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.22) 0%,transparent 65%);top:-100px;right:-40px;pointer-events:none}
 .ti{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu);font-weight:500}
 .ts{width:4px;height:4px;border-radius:50%;background:var(--bd)}
-.hm{width:100%;max-width:680px;margin:40px auto 0;background:rgba(26,25,24,.85);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:26px 30px;text-align:left;position:relative;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.25);animation:fl 6s 1s ease-in-out infinite}
-.hm::before{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.22) 0%,transparent 65%);top:-100px;right:-40px;pointer-events:none}
 .mb{display:flex;align-items:center;gap:6px;margin-bottom:18px}
 .md{width:10px;height:10px;border-radius:50%}
 .mlab{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:.1em;text-transform:uppercase;margin-left:auto}
@@ -111,15 +105,16 @@ section{padding:88px 40px}
 .vb strong{color:var(--o)}
 .pr{background:var(--ol);border:1px solid rgba(224,123,0,.2);border-radius:16px;padding:24px;position:relative;overflow:hidden}
 .pr::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(224,123,0,.14) 0%,transparent 70%);bottom:-50px;right:-40px;pointer-events:none}
-.cb2{background:var(--dk);border-radius:10px;padding:16px;font-family:'Courier New',monospace;font-size:11px;line-height:1.9;margin-bottom:10px;min-height:180px}
-.t-bar{background:#222120;border-radius:8px 8px 0 0;padding:8px 12px;display:flex;align-items:center;gap:5px;margin:-16px -16px 12px}
+.cb2{background:var(--dk);border-radius:10px;overflow:hidden;font-family:'Courier New',monospace;font-size:11px;line-height:1.9;margin-bottom:10px;min-height:200px}
+.t-bar{background:#222120;padding:9px 13px;display:flex;align-items:center;gap:5px}
 .t-dot2{width:9px;height:9px;border-radius:50%}
 .t-title2{font-size:10px;color:rgba(255,255,255,.25);margin-left:6px;letter-spacing:.04em}
+.t-body{padding:14px 16px}
 .term-line{display:flex;align-items:center;gap:8px;opacity:0}
 .term-line.show{animation:termLine .25s ease forwards}
 .t-prompt{color:rgba(255,255,255,.3)}
 .t-cmd{color:rgba(255,255,255,.8)}
-.ce{color:#FF6B6B}.cw{color:#FFB347}.cc{color:rgba(255,255,255,.18)}
+.ce{color:#FF6B6B}.cw{color:#FFB347}.cc{color:rgba(255,255,255,.2)}
 .cbg{display:inline-block;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;margin-right:3px}
 .cbe{background:rgba(255,107,107,.15);color:#FF6B6B}.cbw{background:rgba(255,179,71,.15);color:#FFB347}
 .t-cur{display:inline-block;width:6px;height:12px;background:rgba(255,255,255,.5);vertical-align:middle;margin-left:3px;animation:blink .8s step-end infinite}
@@ -155,7 +150,7 @@ section{padding:88px 40px}
 .ca{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:24px 26px;position:relative;overflow:hidden;opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1),box-shadow .3s,border-color .3s}
 .ca.show{opacity:1;transform:none}
 .ca::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--o),transparent);opacity:0;transition:opacity .3s}
-.ca:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.08);border-color:rgba(224,123,0,.25)}
+.ca:hover{transform:translateY(-5px)!important;box-shadow:0 14px 40px rgba(0,0,0,.08);border-color:rgba(224,123,0,.25)}
 .ca:hover::after{opacity:1}
 .ci{font-size:26px;margin-bottom:12px}
 .ct{font-size:16px;font-weight:700;margin-bottom:6px}
@@ -205,15 +200,7 @@ section{padding:88px 40px}
 footer{background:#0D0C0C;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .flo{font-weight:800;font-size:14px;color:var(--o)}
 .fce,.fri{font-size:11px;color:rgba(255,255,255,.2)}
-@media(max-width:768px){
-  nav{padding:0 20px}.nv{display:none}
-  section{padding:60px 20px}.hero{padding:80px 20px 48px}
-  .pg,.sg2,.pqg{grid-template-columns:1fr;gap:36px}
-  .cg{grid-template-columns:1fr}
-  .mts{grid-template-columns:1fr;gap:8px}.mt2{border-radius:12px !important}
-  .hm{display:none}
-  footer{flex-direction:column;text-align:center}
-}
+@media(max-width:768px){nav{padding:0 20px}.nv{display:none}section{padding:60px 20px}.hero{padding:80px 20px 48px}.pg,.sg2,.pqg{grid-template-columns:1fr;gap:36px}.cg{grid-template-columns:1fr}.mts{grid-template-columns:1fr;gap:8px}.mt2{border-radius:12px !important}.hm{display:none}footer{flex-direction:column;text-align:center}}
 </style>
 </head>
 <body>
@@ -233,11 +220,11 @@ footer{background:#0D0C0C;padding:24px 40px;display:flex;align-items:center;just
       <span class="badge-txt">Construído com a metodologia que ensina</span>
     </div>
     <h1>Seu produto com IA<br>vai <span class="ac">quebrar.</span></h1>
-    <p class="htg"><span id="tw-text"></span><span class="tw-cursor" id="tw-cur">_</span></p>
+    <p class="htg"><span id="tw-text"></span><span class="tw-cursor">_</span></p>
     <p class="hdc">Não porque a ideia é ruim — mas porque você não tem estrutura.<br>Pare de refazer o que já fez.</p>
     <div class="hbt">
-      <a href="#cta" class="bp" id="mainbtn">
-        <div class="ww"><div class="wi"><svg class="ws1" id="ws1" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg><svg class="ws2" id="ws2" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+      <a href="#cta" class="bp">
+        <div class="ww"><div class="wi"><svg class="ws1" id="ws1a" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg><svg class="ws2" id="ws2a" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
         <span class="lbl">Quero o Manga Essencial — R$ 67 →</span>
       </a>
       <a href="#inc" class="bs">Ver o que inclui</a>
@@ -295,7 +282,7 @@ footer{background:#0D0C0C;padding:24px 40px;display:flex;align-items:center;just
           <div class="t-dot2" style="background:#28C840"></div>
           <span class="t-title2">bash — projeto-saas</span>
         </div>
-        <span class="t-cur"></span>
+        <div class="t-body"><span class="t-cur"></span></div>
       </div>
       <div class="sr3">
         <div class="sc"><div class="sn">70%</div><div class="sk">do código gerado com IA tem anti-patterns</div></div>
@@ -324,7 +311,7 @@ footer{background:#0D0C0C;padding:24px 40px;display:flex;align-items:center;just
     <h2 class="st">Manga Essencial — pare de construir no escuro.</h2>
     <p class="sd">Templates, checklist, prompts e workspace Notion com Kanban. Prontos para usar hoje.</p>
     <a href="#cta" class="bp" style="margin-top:24px">
-      <div class="ww"><div class="wi"><svg class="ws1 ws1b" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg><svg class="ws2 ws2b" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+      <div class="ww"><div class="wi"><svg class="ws1" id="ws1b" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg><svg class="ws2" id="ws2b" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
       <span class="lbl">Quero o Manga Essencial — R$ 67 →</span>
     </a>
     <div class="tsr"><div class="ti2">🥭</div><div><div class="tlbl">Essa manga ainda está no pé</div><div class="ttxt">Tá saindo do verde. <strong>Quem entra agora garante acesso antecipado</strong> ao que vem a seguir — antes de todo mundo.</div></div></div>
@@ -378,7 +365,7 @@ footer{background:#0D0C0C;padding:24px 40px;display:flex;align-items:center;just
   <div class="cta-p">R$ 67</div>
   <p class="cta-ps">Pagamento único · Sem assinatura</p>
   <a href="#" class="bp" style="font-size:16px;padding:14px 32px">
-    <div class="ww"><div class="wi"><svg class="ws1 ws1c" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg><svg class="ws2 ws2c" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+    <div class="ww"><div class="wi"><svg class="ws1" id="ws1c" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg><svg class="ws2" id="ws2c" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
     <span class="lbl">Quero o Manga Essencial →</span>
   </a>
   <div class="cta-tr"><div class="cta-ti">⏱ Acesso imediato</div><div class="cta-ti">📋 PDF + Notion</div><div class="cta-ti">♾ Acesso vitalício</div><div class="cta-ti">🔒 Pagamento seguro</div></div>
@@ -386,7 +373,7 @@ footer{background:#0D0C0C;padding:24px 40px;display:flex;align-items:center;just
 
 <footer>
   <div class="flo">🥭 Manga · Um produto Cacho</div>
-  <div class="fce">© 2026 Cacho</div>
+  <div class="fce">© 2026 Cacho &nbsp;·&nbsp; <span style="font-style:italic;opacity:.5">Chupa essa manga.<span class="tw-cursor">_</span></span></div>
   <div class="fri">Início · FAQ · Notion</div>
 </footer>
 
@@ -399,110 +386,98 @@ var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isInters
 document.querySelectorAll('.rv,.rl,.rr,.sg').forEach(function(el){obs.observe(el);});
 
 // FAQ
-document.querySelectorAll('.fqi').forEach(function(i){i.querySelector('.fqq').addEventListener('click',function(){var o=i.classList.contains('open');document.querySelectorAll('.fqi').forEach(function(x){x.classList.remove('open');});if(!o)i.classList.add('open');});});
+document.querySelectorAll('.fqi').forEach(function(item){
+  item.querySelector('.fqq').addEventListener('click',function(){
+    var o=item.classList.contains('open');
+    document.querySelectorAll('.fqi').forEach(function(x){x.classList.remove('open');});
+    if(!o)item.classList.add('open');
+  });
+});
 
 // Parallax glows
-document.addEventListener('mousemove',function(e){var x=(e.clientX/window.innerWidth-.5)*18,y=(e.clientY/window.innerHeight-.5)*18;var g1=document.querySelector('.glow-a'),g2=document.querySelector('.glow-b');if(g1)g1.style.transform='translate('+x+'px,'+y+'px)';if(g2)g2.style.transform='translate('+(-x*.5)+'px,'+(-y*.5)+'px)';});
+document.addEventListener('mousemove',function(e){
+  var x=(e.clientX/window.innerWidth-.5)*18,y=(e.clientY/window.innerHeight-.5)*18;
+  var g1=document.querySelector('.glow-a'),g2=document.querySelector('.glow-b');
+  if(g1)g1.style.transform='translate('+x+'px,'+y+'px)';
+  if(g2)g2.style.transform='translate('+(-x*.5)+'px,'+(-y*.5)+'px)';
+});
 
 // Counters
 var co=new IntersectionObserver(function(e){e.forEach(function(x){if(!x.isIntersecting||x.target.dataset.done)return;x.target.dataset.done=1;var t=parseInt(x.target.dataset.n);if(!t)return;var c=0,s=Math.ceil(t/25),tm=setInterval(function(){c=Math.min(c+s,t);x.target.textContent=c;if(c>=t)clearInterval(tm);},50);});},{threshold:.5});
 document.querySelectorAll('.mn2[data-n]').forEach(function(el){co.observe(el);});
 
-// Badge border after stars
+// Badge border
 setTimeout(function(){var b=document.getElementById('hbadge');if(b)b.classList.add('ready');},1300);
 
-// Typewriter
-(function(){
-  var el=document.getElementById('tw-text');
-  var msg='Chupa essa manga. 🥭';
-  var i=0;
-  function type(){
-    if(!el) return;
-    el.textContent=msg.slice(0,i);
-    if(i<=msg.length){i++;setTimeout(type,i===1?700:68);}
-  }
-  setTimeout(type,500);
-})();
-
 // Liquid wave SVGs
-function makeLiquidSVGs(s1id, s2id){
-  var s1=document.getElementById(s1id)||document.querySelector(s1id);
-  var s2=document.getElementById(s2id)||document.querySelector(s2id);
-  if(!s1||!s2) return;
-  function path(phase,fill,el){
+function makeLiquid(s1,s2){
+  if(!s1||!s2)return;
+  function build(phase,fill,el){
     var W=800,H=60,amp=8;
     var d='M0,'+(amp+amp*Math.sin(phase));
     for(var x=1;x<=W;x++){d+=' L'+x+','+(amp+amp*Math.sin((x/W)*Math.PI*4+phase));}
     d+=' L'+W+','+H+' L0,'+H+' Z';
     var rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
-    rect.setAttribute('x','0');rect.setAttribute('y','16');
-    rect.setAttribute('width','800');rect.setAttribute('height','44');
-    rect.setAttribute('fill',fill);
+    rect.setAttribute('x','0');rect.setAttribute('y','16');rect.setAttribute('width','800');rect.setAttribute('height','44');rect.setAttribute('fill',fill);
     var p=document.createElementNS('http://www.w3.org/2000/svg','path');
     p.setAttribute('d',d);p.setAttribute('fill',fill);
     el.innerHTML='';el.appendChild(rect);el.appendChild(p);
   }
-  path(0,'#BF6200',s1);
-  path(1.2,'rgba(235,130,20,0.82)',s2);
+  build(0,'#BF6200',s1);
+  build(1.2,'rgba(235,130,20,0.82)',s2);
 }
-makeLiquidSVGs('ws1','ws2');
-// Secondary buttons — query by class
+makeLiquid(document.getElementById('ws1a'),document.getElementById('ws2a'));
+makeLiquid(document.getElementById('ws1b'),document.getElementById('ws2b'));
+makeLiquid(document.getElementById('ws1c'),document.getElementById('ws2c'));
+
+// Hero sequência — h1 aparece, depois typewriter, depois o resto
 (function(){
-  var btns=document.querySelectorAll('.ws1b,.ws2b');
-  var done={};
-  btns.forEach(function(el){
-    var isS2=el.classList.contains('ws2b');
-    var W=800,H=60,amp=8,phase=isS2?1.2:0,fill=isS2?'rgba(235,130,20,0.82)':'#BF6200';
-    var d='M0,'+(amp+amp*Math.sin(phase));
-    for(var x=1;x<=W;x++){d+=' L'+x+','+(amp+amp*Math.sin((x/W)*Math.PI*4+phase));}
-    d+=' L'+W+','+H+' L0,'+H+' Z';
-    var rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
-    rect.setAttribute('x','0');rect.setAttribute('y','16');
-    rect.setAttribute('width','800');rect.setAttribute('height','44');
-    rect.setAttribute('fill',fill);
-    var p=document.createElementNS('http://www.w3.org/2000/svg','path');
-    p.setAttribute('d',d);p.setAttribute('fill',fill);
-    el.innerHTML='';el.appendChild(rect);el.appendChild(p);
-  });
-  // CTA button
-  ['ws1c','ws2c'].forEach(function(cls){
-    var el=document.querySelector('.'+cls);
-    if(!el) return;
-    var isS2=cls==='ws2c';
-    var W=800,H=60,amp=8,phase=isS2?1.2:0,fill=isS2?'rgba(235,130,20,0.82)':'#BF6200';
-    var d='M0,'+(amp+amp*Math.sin(phase));
-    for(var x=1;x<=W;x++){d+=' L'+x+','+(amp+amp*Math.sin((x/W)*Math.PI*4+phase));}
-    d+=' L'+W+','+H+' L0,'+H+' Z';
-    var rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
-    rect.setAttribute('x','0');rect.setAttribute('y','16');
-    rect.setAttribute('width','800');rect.setAttribute('height','44');
-    rect.setAttribute('fill',fill);
-    var p=document.createElementNS('http://www.w3.org/2000/svg','path');
-    p.setAttribute('d',d);p.setAttribute('fill',fill);
-    el.innerHTML='';el.appendChild(rect);el.appendChild(p);
-  });
+  var el=document.getElementById('tw-text');
+  var msg='Chupa essa manga. \uD83E\uDD6D';
+  var i=0;
+  function revealRest(){
+    var items=['.hdc','.hbt','.htr','.hm'];
+    var delays=[0,120,240,400];
+    items.forEach(function(sel,idx){
+      setTimeout(function(){
+        var node=document.querySelector(sel);
+        if(!node)return;
+        node.style.transition='opacity .6s ease, transform .6s ease';
+        node.style.transform='translateY(16px)';
+        requestAnimationFrame(function(){requestAnimationFrame(function(){
+          node.style.transform='translateY(0)';
+          node.style.opacity='1';
+        });});
+        if(sel==='.hm'){
+          setTimeout(function(){node.style.animation='fl 6s ease-in-out infinite';},700);
+        }
+      },delays[idx]);
+    });
+  }
+  function type(){
+    if(!el)return;
+    el.textContent=msg.slice(0,i);
+    if(i<=msg.length){i++;setTimeout(type,i===1?200:65);}
+    else{setTimeout(revealRest,100);}
+  }
+  setTimeout(type,900);
 })();
 
 // Terminal animado
 var termObs=new IntersectionObserver(function(entries){
   entries.forEach(function(entry){
-    if(!entry.isIntersecting) return;
+    if(!entry.isIntersecting)return;
     termObs.unobserve(entry.target);
-    var term=document.getElementById('terminal');
-    var cur=term.querySelector('.t-cur');
+    var tbody=entry.target.querySelector('.t-body');
+    var cur=tbody.querySelector('.t-cur');
     var seq=[
-      {type:'cmd',text:'npm run dev',delay:400},
-      {type:'out',lines:[
-        {c:'cc',t:'> next dev — ready on http://localhost:3000'},
-      ],ld:60},
-      {type:'pause',delay:800},
-      {type:'cmd',text:'git commit -m "add user dashboard"',delay:1100},
-      {type:'out',lines:[
-        {c:'cc',t:'[main 3f2a1c9] add user dashboard'},
-        {c:'cc',t:' 4 files changed, 127 insertions(+)'},
-      ],ld:60},
-      {type:'pause',delay:600},
-      {type:'cmd',text:'npm run build',delay:900},
+      {type:'cmd',text:'npm run dev',delay:300},
+      {type:'out',lines:[{c:'cc',t:'> next dev — ready on http://localhost:3000'}],ld:60},
+      {type:'pause',delay:700},
+      {type:'cmd',text:'git commit -m "add user dashboard"',delay:900},
+      {type:'out',lines:[{c:'cc',t:'[main 3f2a1c9] add user dashboard'},{c:'cc',t:' 4 files changed, 127 insertions(+)'}],ld:60},
+      {type:'pause',delay:500},
+      {type:'cmd',text:'npm run build',delay:800},
       {type:'out',lines:[
         {c:'cc',t:'> next build'},
         {c:'cw',badge:'WARN',bc:'cbw',t:'Auth middleware: session undefined on /dashboard'},
@@ -511,32 +486,30 @@ var termObs=new IntersectionObserver(function(entries){
         {c:'cw',badge:'WARN',bc:'cbw',t:'3 tests failed — coverage dropped to 41%'},
         {c:'ce',badge:'ERRO',bc:'cbe',t:'Build failed. Check errors above.'},
         {c:'cc',t:''},
-        {c:'cc',t:'// Mas funcionava antes do último commit...'},
-      ],ld:120},
+        {c:'cc',t:'// Mas funcionava antes do ultimo commit...'},
+      ],ld:130},
     ];
     function addLine(cfg){
-      var div=document.createElement('div');
-      div.className='term-line';
+      var div=document.createElement('div');div.className='term-line';
       var html='';
-      if(cfg.badge) html+='<span class="cbg '+cfg.bc+'">'+cfg.badge+'</span>';
+      if(cfg.badge)html+='<span class="cbg '+cfg.bc+'">'+cfg.badge+'</span>';
       html+='<span class="'+cfg.c+'">'+cfg.t+'</span>';
       div.innerHTML=html;
-      term.insertBefore(div,cur);
+      tbody.insertBefore(div,cur);
       requestAnimationFrame(function(){div.classList.add('show');});
     }
     function typeCmd(txt,cb){
-      var div=document.createElement('div');
-      div.className='term-line show';
+      var div=document.createElement('div');div.className='term-line show';
       var pr=document.createElement('span');pr.className='t-prompt';pr.textContent='$ ';
       var cm=document.createElement('span');cm.className='t-cmd';
       div.appendChild(pr);div.appendChild(cm);
-      term.insertBefore(div,cur);
+      tbody.insertBefore(div,cur);
       var i=0;
-      function tick(){cm.textContent=txt.slice(0,i);if(i<=txt.length){i++;setTimeout(tick,40+Math.random()*25);}else{setTimeout(cb,250);}}
+      function tick(){cm.textContent=txt.slice(0,i);if(i<=txt.length){i++;setTimeout(tick,38+Math.random()*22);}else{setTimeout(cb,250);}}
       tick();
     }
     function run(steps,idx){
-      if(idx>=steps.length) return;
+      if(idx>=steps.length)return;
       var s=steps[idx],next=function(){run(steps,idx+1);};
       if(s.type==='cmd'){setTimeout(function(){typeCmd(s.text,next);},s.delay);}
       else if(s.type==='out'){var li=0;function sl(){if(li>=s.lines.length){next();return;}addLine(s.lines[li]);li++;setTimeout(sl,s.ld+Math.random()*30);}setTimeout(sl,180);}
@@ -546,12 +519,12 @@ var termObs=new IntersectionObserver(function(entries){
   });
 },{threshold:0.3});
 var termEl=document.getElementById('terminal');
-if(termEl) termObs.observe(termEl);
+if(termEl)termObs.observe(termEl);
 
 // Cards um a um
 var cardObs=new IntersectionObserver(function(entries){
   entries.forEach(function(entry){
-    if(!entry.isIntersecting) return;
+    if(!entry.isIntersecting)return;
     cardObs.unobserve(entry.target);
     document.querySelectorAll('#cardgrid .ca').forEach(function(card,i){
       setTimeout(function(){card.classList.add('show');},i*160);
@@ -559,7 +532,7 @@ var cardObs=new IntersectionObserver(function(entries){
   });
 },{threshold:0.15});
 var cg=document.getElementById('cardgrid');
-if(cg) cardObs.observe(cg);
+if(cg)cardObs.observe(cg);
 </script>
 </body>
 </html>
